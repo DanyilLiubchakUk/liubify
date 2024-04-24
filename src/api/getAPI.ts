@@ -1,4 +1,4 @@
-export function makeAPI(
+export function makeAPIForToken(
     apiURL: string,
     ClientID: string,
     RedirectURI: string,
@@ -8,7 +8,7 @@ export function makeAPI(
         " "
     )}&response_type=token&show_daialog=true`;
 }
-export function getToken(): string | undefined {
+export function getTokenFromHash(): string | undefined {
     const hash = window.location.hash;
     if (hash) {
         return hash.substring(1).split("&")[0].split("=")[1];

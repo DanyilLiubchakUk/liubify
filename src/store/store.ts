@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import tokenReducer from "./token/tokenSlice";
 import tabsReducer from "./tabs/tabsSlice";
+import leftTabReducer from "./leftTab/searchPlaylistsSlice";
 import { userAPI } from "../api/userAPI";
 
 export const store = configureStore({
     reducer: {
         token: tokenReducer,
         tabs: tabsReducer,
+        leftTab: leftTabReducer,
         [userAPI.reducerPath]: userAPI.reducer
         // can add more reducers, just make more slices
     },

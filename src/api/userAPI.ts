@@ -5,7 +5,7 @@ export const userAPI = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "https://api.spotify.com/" }),
     endpoints: (build) => ({
         fetchCurentUser: build.query<IUser, Itoken>({
-            query: (token: string | null) => ({
+            query: (token: Itoken) => ({
                 url: "v1/me",
                 params: {
                     // add more in end (?_limit)
@@ -13,8 +13,17 @@ export const userAPI = createApi({
                 },
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+        fetchCurentUserTopArtists: build.query<any, Itoken>({
+            query: (token: Itoken) => ({
+                url: "v1/me/top/artists",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
             }),
         }),
     }),

@@ -14,6 +14,9 @@ import {
     setSizeOfTabs,
     setTemporaryIsShowThirdTab,
 } from "../store/tabs/tabsSlice";
+import { getTokenFromHash, makeAPIForToken } from "../api/getAPI";
+import { ClientID, RedirectURI, apiURL, scope } from "../api/API_DATA";
+import { setToken } from "../store/token/tokenSlice";
 
 export function Main({}: {}) {
     const showThirdTab: boolean = useSelector(
@@ -21,6 +24,9 @@ export function Main({}: {}) {
     );
     const temporaryShowThirdTab: boolean = useSelector(
         (state: RootState) => state.tabs.temporaryShowThirdTab
+    );
+    const token: string | null = useSelector(
+        (state: RootState) => state.token.value
     );
     const dispatch = useDispatch();
     const ref1 = useRef<ImperativePanelHandle>(null);
@@ -74,14 +80,21 @@ export function Main({}: {}) {
             }
         }
     };
+
+    if (!window.location.hash.includes("#access_token=")) {
+        makeAPIForToken(apiURL, ClientID, RedirectURI, scope);
+        dispatch(setToken(getTokenFromHash()));
+    }
+
+    dispatch(setToken(getTokenFromHash()));
     const sizeOfMinimumRightMenu = (100 / window.innerWidth) * 64;
     const sizeOfMiddleRightMenu = (100 / window.innerWidth) * 280;
-    const sizeOfLargeRightMenu = (100 / window.innerWidth) * 420;
+    const sizeOfLargeRightMenu = (100 / window.innerWidth) * 430;
     return (
-        <div className="bg-black flex flex-col h-screen">
+        <div className="bg-black h-screen grid grid-rows-[1fr,72px] p-2">
             <PanelGroup
                 direction="horizontal"
-                className="flex gap-[0.2rem] px-2 pt-2"
+                className="flex gap-[0.2rem] row-span-1"
             >
                 <Panel
                     ref={ref1}
@@ -96,7 +109,7 @@ export function Main({}: {}) {
                         );
                         firtResize();
                     }}
-                    defaultSize={sizeOfMiddleRightMenu}
+                    defaultSize={20}
                     maxSize={78}
                     minSize={sizeOfMinimumRightMenu}
                 >
@@ -169,7 +182,7 @@ export function Main({}: {}) {
                     <RightBar />
                 </Panel>
             </PanelGroup>
-            <div className=" bg-dark">play</div>
+            <div className=" bg-slate-500 opacity-20 h-[72px]">play</div>
         </div>
     );
 }

@@ -4,9 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsShowThirdTab } from "../../store/tabs/tabsSlice";
 
 export function MainPanel({}: {}) {
-    // const token: string | null = useSelector(
-    //     (state: RootState) => state.token.value
-    // );
     // const { data, isError, isLoading } = userAPI.useFetchCurentUserQuery(token); // expect some param for params (_limit)
     const dispatch = useDispatch();
 
