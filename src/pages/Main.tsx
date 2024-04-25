@@ -80,11 +80,14 @@ export function Main({}: {}) {
             }
         }
     };
-
-    if (!window.location.hash.includes("#access_token=")) {
-        makeAPIForToken(apiURL, ClientID, RedirectURI, scope);
-        dispatch(setToken(getTokenFromHash()));
-    }
+    useEffect(() => {
+        if (!window.location.hash.includes("access_token=")) {
+            if (token === undefined) {
+                makeAPIForToken(apiURL, ClientID, RedirectURI, scope);
+                dispatch(setToken(getTokenFromHash()));
+            }
+        }
+    }, []);
 
     dispatch(setToken(getTokenFromHash()));
     const sizeOfMinimumRightMenu = (100 / window.innerWidth) * 64;

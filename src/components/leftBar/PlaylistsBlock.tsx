@@ -3,11 +3,21 @@ import { RootState } from "../../store/store";
 import { Playlists } from "./Playlists";
 import { Playlist } from "./Playlist";
 import { FindReserch } from "./FindReserch";
-
-export function PlaylistsBlock({}: {}) {
+import { IItemArtist, Itoken } from "../../models/api";
+interface PlaylistsBlockProps {
+    artistsArr: IItemArtist[];
+    isLoading: boolean;
+    isError: boolean;
+}
+export function PlaylistsBlock({
+    artistsArr,
+    isLoading,
+    isError,
+}: PlaylistsBlockProps) {
     const firstTabSize: number | null = useSelector(
         (state: RootState) => state.tabs.firstTabSize
     );
+    const token: Itoken = useSelector((state: RootState) => state.token.value);
     return (
         <div className="mt-4 text-stone-300 text-sm">
             <Playlists>
@@ -29,41 +39,24 @@ export function PlaylistsBlock({}: {}) {
                           </div>
                       )
                     : null}
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
-                <Playlist />
+                {isError ? (
+                    token ? (
+                        <p className="h-full flex justify-center items-center text-red-400 text-lg">
+                            <span>Somethink went wrong</span>
+                        </p>
+                    ) : null
+                ) : (
+                    <>
+                        {artistsArr.map((playlist) => {
+                            return (
+                                <Playlist
+                                    key={playlist.id}
+                                    playlist={playlist}
+                                />
+                            );
+                        })}
+                    </>
+                )}
             </Playlists>
         </div>
     );

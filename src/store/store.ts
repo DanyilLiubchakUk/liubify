@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import tokenReducer from "./token/tokenSlice";
 import tabsReducer from "./tabs/tabsSlice";
 import leftTabReducer from "./leftTab/searchPlaylistsSlice";
+import artistsSliceReducer from "./usersArtists/usersArtistsSlice";
 import { userAPI } from "../api/userAPI";
 
 export const store = configureStore({
@@ -9,10 +10,12 @@ export const store = configureStore({
         token: tokenReducer,
         tabs: tabsReducer,
         leftTab: leftTabReducer,
-        [userAPI.reducerPath]: userAPI.reducer
+        artistsSlice: artistsSliceReducer,
+        [userAPI.reducerPath]: userAPI.reducer,
         // can add more reducers, just make more slices
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userAPI.middleware)
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(userAPI.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

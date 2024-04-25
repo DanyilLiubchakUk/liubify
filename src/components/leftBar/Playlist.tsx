@@ -1,23 +1,41 @@
+import { useSelector } from "react-redux";
+import { IItemArtist } from "../../models/api";
+import { RootState } from "../../store/store";
 import { GrayIcon } from "../icons/grayIcon";
 
-export function Playlist({}: {}) {
+interface PlaylistProps {
+    playlist: IItemArtist;
+}
+
+export function Playlist({ playlist }: PlaylistProps) {
+    const firstTabSize: number | null = useSelector(
+        (state: RootState) => state.tabs.firstTabSize
+    );
     return (
         <div className="playlist grid grid-cols-12 items-center gap-3 hover:bg-stone-800 transition-colors px-2 py-1.5 mr-1 rounded-lg">
-            <div className="col-span-8 flex gap-3 items-center">
+            <div
+                className={`flex gap-3 items-center${
+                    firstTabSize !== null
+                        ? firstTabSize < 450 ? " col-span-12" : " col-span-8"
+                        : ""
+                }`}
+            >
                 <div
-                    className="min-w-12 h-12 bg-cover bg-center rounded"
+                    className={`min-w-12 h-12 bg-cover bg-center rounded${
+                        playlist.type === "artist" ? " rounded-full" : ""
+                    }`}
                     style={{
-                        backgroundImage: `url(https://cdn.britannica.com/36/69636-050-81A93193/Self-Portrait-artist-panel-board-Vincent-van-Gogh-1887.jpg)`,
+                        backgroundImage: `url(${playlist.images[0].url})`,
                     }}
                 ></div>
                 <div className="relative grow self-start">
                     <div className="flex flex-col">
                         <div className="relative h-12">
-                            <span className="text-ellipsis overflow-hidden whitespace-nowrap left-0 right-0 absolute top-0.5 text-stone-100 text-lg font-bold">
-                                Thimaty albus for arm dfd df dff dfs
+                            <span className="text-ellipsis overflow-hidden whitespace-nowrap left-0 right-0 absolute top-0.5 text-stone-100 text-md font-bold">
+                                {playlist.name}
                             </span>
                             <span className="text-ellipsis overflow-hidden whitespace-nowrap left-0 right-0 bottom-0.5 absolute">
-                                2 playlists
+                                {playlist.type}
                             </span>
                         </div>
                     </div>
@@ -26,8 +44,16 @@ export function Playlist({}: {}) {
                     <GrayIcon d="m14 6-6 6-6-6h12z" />
                 </div>
             </div>
-            <div className="col-span-2 text-xs">Mar 1, 2024</div>
-            <div className="col-span-2 text-end text-xs">2 days ago</div>
+            {firstTabSize !== null
+                ? firstTabSize >= 450 && (
+                      <>
+                          <div className="col-span-2 text-xs">Mar 1, 2024</div>
+                          <div className="col-span-2 text-end text-xs">
+                              2 days ago
+                          </div>
+                      </>
+                  )
+                : null}
         </div>
     );
 }
