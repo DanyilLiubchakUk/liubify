@@ -4,6 +4,8 @@ import tabsReducer from "./tabs/tabsSlice";
 import leftTabReducer from "./leftTab/searchPlaylistsSlice";
 import artistsSliceReducer from "./usersArtists/usersArtistsSlice";
 import { userAPI } from "../api/userAPI";
+import mainTab from "./mainTab/mainTabSlice";
+import playlistHistory from "./playlistsHistory/playlistsHistorySlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +14,8 @@ export const store = configureStore({
         leftTab: leftTabReducer,
         artistsSlice: artistsSliceReducer,
         [userAPI.reducerPath]: userAPI.reducer,
+        mainTab: mainTab,
+        playlistHistory: playlistHistory,
         // can add more reducers, just make more slices
     },
     middleware: (getDefaultMiddleware) =>

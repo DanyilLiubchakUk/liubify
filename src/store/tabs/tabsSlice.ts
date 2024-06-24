@@ -4,27 +4,17 @@ interface tabsState {
     firstTabSize: number | null;
     secondTabSize: number | null;
     thirdTabSize: number | null;
-    showThirdTab: boolean;
-    temporaryShowThirdTab: boolean;
 }
 const initialState: tabsState = {
     firstTabSize: null,
     secondTabSize: null,
     thirdTabSize: null,
-    showThirdTab: true,
-    temporaryShowThirdTab: true,
 };
 
 const tokenSlice = createSlice({
     name: "tabs",
     initialState,
     reducers: {
-        setIsShowThirdTab: (state, action) => {
-            state.showThirdTab = action.payload; // this for any positoin for turn off thitd window/tab
-        },
-        setTemporaryIsShowThirdTab: (state, action) => {
-            state.temporaryShowThirdTab = action.payload;
-        },
         setSizeOfTabs: (
             state,
             action: {
@@ -32,7 +22,7 @@ const tokenSlice = createSlice({
                 type: string;
             }
         ) => {
-            const sizeInPixsel = (action.payload[1] / 100) * window.innerWidth;
+            const sizeInPixsel = action.payload[1];
             if (action.payload[0] === "first") {
                 state.firstTabSize = sizeInPixsel;
             }
@@ -47,5 +37,4 @@ const tokenSlice = createSlice({
 });
 
 export default tokenSlice.reducer; // reducer - all slice logic :)
-export const { setIsShowThirdTab, setTemporaryIsShowThirdTab, setSizeOfTabs } =
-    tokenSlice.actions; // actions
+export const { setSizeOfTabs } = tokenSlice.actions; // actions

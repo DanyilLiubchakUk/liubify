@@ -1,3 +1,5 @@
+import { Itoken } from "../models/api";
+
 export function makeAPIForToken(
     apiURL: string,
     ClientID: string,
@@ -8,9 +10,12 @@ export function makeAPIForToken(
         " "
     )}&response_type=token&show_daialog=true`;
 }
-export function getTokenFromHash(): string | undefined {
+export function getTokenFromHash(): Itoken {
     const hash = window.location.hash;
     if (hash) {
         return hash.substring(1).split("&")[0].split("=")[1];
+    }
+    else {
+        return null
     }
 }

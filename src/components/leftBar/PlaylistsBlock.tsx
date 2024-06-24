@@ -6,13 +6,13 @@ import { FindReserch } from "./FindReserch";
 import { IItemArtist, Itoken } from "../../models/api";
 interface PlaylistsBlockProps {
     artistsArr: IItemArtist[];
-    isLoading: boolean;
     isError: boolean;
+    isLoading: boolean;
 }
 export function PlaylistsBlock({
-    artistsArr,
-    isLoading,
     isError,
+    isLoading,
+    artistsArr,
 }: PlaylistsBlockProps) {
     const firstTabSize: number | null = useSelector(
         (state: RootState) => state.tabs.firstTabSize
@@ -39,7 +39,7 @@ export function PlaylistsBlock({
                           </div>
                       )
                     : null}
-                {isError ? (
+                {false ? (
                     token ? (
                         <p className="h-full flex justify-center items-center text-red-400 text-lg">
                             <span>Somethink went wrong</span>
@@ -47,14 +47,28 @@ export function PlaylistsBlock({
                     ) : null
                 ) : (
                     <>
-                        {artistsArr.map((playlist) => {
-                            return (
-                                <Playlist
-                                    key={playlist.id}
-                                    playlist={playlist}
-                                />
-                            );
-                        })}
+                        {artistsArr
+                            .sort((playlistA, playlistB) => {
+                                if (
+                                    playlistA.type === "artist" &&
+                                    playlistB.type === "artist"
+                                ) {
+                                    return (
+                                        playlistB.popularity -
+                                        playlistA.popularity
+                                    );
+                                } else {
+                                    return 0;
+                                }
+                            })
+                            .map((playlist) => {
+                                return (
+                                    <Playlist
+                                        key={playlist.id}
+                                        playlist={playlist}
+                                    />
+                                );
+                            })}
                     </>
                 )}
             </Playlists>

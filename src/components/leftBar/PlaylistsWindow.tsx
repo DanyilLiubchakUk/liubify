@@ -4,46 +4,60 @@ import { PlaylistsBlock } from "./PlaylistsBlock";
 import { PlaylistsNavBar } from "./PlaylistsNavBar";
 import { RootState } from "../../store/store";
 import { useEffect, useState } from "react";
-import { IItemArtist, Itoken } from "../../models/api";
-import { addArtist } from "../../store/usersArtists/usersArtistsSlice";
+import {
+    setArtists,
+    setPlaylists,
+} from "../../store/usersArtists/usersArtistsSlice";
+import { UseGetApiArr } from "../../hooks/UseGetApiArr";
+import { Itoken } from "../../models/api";
 
 export function PlaylistsWindow({}: {}) {
     const dispatch = useDispatch();
-    const [countOfRequests, setCountOfRequests] = useState(0);
+    const [skip, setSkip] = useState(true);
     const token: Itoken = useSelector((state: RootState) => state.token.value);
-    const artistsArr: IItemArtist[] = useSelector(
-        (state: RootState) => state.artistsSlice.artistsArr
-    );
-    const { data, isError, isLoading } =
-        userAPI.useFetchCurentUserTopArtistsQuery({ token, countOfRequests });
+    
+    const {
+        arr: artistsArr,
+        isLoading: artistsIsLoading,
+        isError: artistsIsError,
+    } = UseGetApiArr({
+        funcApi: userAPI.useFetchCurentUserTopArtistsQuery,
+        token: token,
+        limit: 20,
+    });
+
+    const {
+        arr: playlistsArr,
+        isLoading: playlistsIsLoading,
+        isError: playlistsIsError,
+    } = UseGetApiArr({
+        funcApi: userAPI.useFetchCurentUsersPlayliststQuery,
+        token: token,
+        limit: 24,
+    });
 
     useEffect(() => {
-        if (data) {
-            window.history.replaceState(
-                "",
-                document.title,
-                window.location.href.replace(/#.*$/, "")
-            );
-            let countOfRequestsMath;
-            if (data.next || data.previous) {
-                dispatch(addArtist(data.items));
-            }
-            if (data.next !== null) {
-                countOfRequestsMath = Number(
-                    data.next
-                        .split("/")[6]
-                        .split("?")[1]
-                        .split("&")[0]
-                        .split("=")[1]
-                );
-                setCountOfRequests(countOfRequestsMath);
-            }
+        dispatch(setArtists(artistsArr));
+    }, [artistsArr]);
+    useEffect(() => {
+        dispatch(setPlaylists(playlistsArr));
+    }, [playlistsArr]);
+    useEffect(() => {
+        if (token !== null) {
+            setSkip(false);
+        } else {
+            setSkip(true);
         }
-    }, [data]);
+    }, [token]);
+
     return (
         <div className="bg-neutral-900 rounded-md p-3 pb-0 pr-0 overflow-hidden">
             <PlaylistsNavBar />
-            <PlaylistsBlock artistsArr={artistsArr} isLoading={isLoading} isError={isError} />
+            <PlaylistsBlock
+                artistsArr={[...playlistsArr, ...artistsArr]}
+                isLoading={artistsIsLoading}
+                isError={artistsIsError}
+            />
         </div>
     );
 }

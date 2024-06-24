@@ -1,14 +1,12 @@
-import { useDispatch } from "react-redux";
-import { setIsShowThirdTab } from "../../store/tabs/tabsSlice";
+interface RightBarProps {
+    thirdCollapce: () => void;
+}
 
-export function RightBar({}: {}) {
-    const dispatch = useDispatch();
+export function RightBar({ thirdCollapce }: RightBarProps) {
     return (
         <aside className="bg-zinc-800 h-full">
             fhjd
-            <button onClick={() => dispatch(setIsShowThirdTab(false))}>
-                close this tab
-            </button>
+            <button onClick={thirdCollapce}>close this tab</button>
         </aside>
     );
 }

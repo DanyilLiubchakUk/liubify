@@ -1,5 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IUser, IUserTopsArtists, Itoken } from "../models/api";
+import {
+    IAllPlaylists,
+    IOtherUser,
+    IUser,
+    IUserTopsArtists,
+    Itoken,
+    Tfolder,
+} from "../models/api";
 export const userAPI = createApi({
     reducerPath: "curentUserSpotify",
     baseQuery: fetchBaseQuery({ baseUrl: "https://api.spotify.com/" }),
@@ -7,10 +14,6 @@ export const userAPI = createApi({
         fetchCurentUser: build.query<IUser, Itoken>({
             query: (token: Itoken) => ({
                 url: "v1/me",
-                params: {
-                    // add more in end (?_limit)
-                    //_limit: limit
-                },
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
@@ -19,13 +22,80 @@ export const userAPI = createApi({
         }),
         fetchCurentUserTopArtists: build.query<
             IUserTopsArtists,
-            { token: Itoken; countOfRequests: number }
+            {
+                token: Itoken;
+                countOfRequests?: number;
+                itemsPerRequest?: number;
+            }
         >({
-            query: ({ token, countOfRequests = 0 }: { token: Itoken; countOfRequests: number }) => ({
+            query: ({
+                token,
+                countOfOffsets = 0,
+                itemsPerRequest = 20,
+            }: {
+                token: Itoken;
+                countOfOffsets?: number;
+                itemsPerRequest?: number;
+            }) => ({
                 url: "v1/me/top/artists",
                 params: {
-                    offset: countOfRequests,
+                    offset: countOfOffsets,
+                    limit: itemsPerRequest,
                 },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+
+        fetchCurentUsersPlaylistst: build.query<
+            any,
+            { token: Itoken; countOfOffsets: number; itemsPerRequest?: number }
+        >({
+            query: ({
+                token,
+                countOfOffsets = 0,
+                itemsPerRequest = 100,
+            }: {
+                token: Itoken;
+                countOfOffsets?: number;
+                itemsPerRequest?: number;
+            }) => ({
+                url: "v1/me/playlists",
+                params: {
+                    offset: countOfOffsets,
+                    limit: itemsPerRequest,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+        fetchFolderByID: build.query<
+            IAllPlaylists,
+            { token: Itoken; id: string; type: Tfolder }
+        >({
+            query: ({
+                token,
+                id,
+                type,
+            }: {
+                token: Itoken;
+                id: string;
+                type: Tfolder;
+            }) => ({
+                url: `v1/${type}s/${id}`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+        fetchUserByID: build.query<IOtherUser, { token: Itoken; id: string }>({
+            query: ({ token, id }: { token: Itoken; id: string }) => ({
+                url: `v1/users/${id}`,
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
