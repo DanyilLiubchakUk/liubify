@@ -1,32 +1,38 @@
 import { useEffect, useState } from "react";
-import { IItemArtist, IUserTopsArtists, Itoken } from "../models/api";
+import { Item, Itoken } from "../models/api";
 
-interface UseGetApiArrProps {
+interface UseGetApiTrucksArrProps {
     funcApi: any;
     limit?: undefined | number;
     token: Itoken;
+    type: string;
+    id: string;
 }
 
-export function UseGetApiArr({
+export function UseGetApiTracksArr({
     funcApi,
     limit = undefined,
     token,
-}: UseGetApiArrProps) {
+    type,
+    id,
+}: UseGetApiTrucksArrProps) {
     const [countOfOffsets, setCountOfOffsets] = useState(0);
-    const [arrRequest, setArrRequest] = useState<IItemArtist[]>([]);
+    const [arrRequest, setArrRequest] = useState<Item[]>([]);
     const [skip, setSkip] = useState(true);
     const {
         data,
         isError,
         isLoading,
-    }: { data: IUserTopsArtists; isLoading: boolean; isError: boolean } =
-        funcApi({ token, countOfOffsets }, { skip });
+    }: { data: any; isLoading: boolean; isError: boolean } = funcApi(
+        { token, countOfOffsets, type, id },
+        { skip }
+    );
     useEffect(() => {
         if (data) {
             let countOfRequestsMath = 0;
-            if (data.next !== null) {
+            if (data.tracks.next !== null) {
                 countOfRequestsMath = Number(
-                    data.next
+                    data.tracks.next
                         .split("/")[6]
                         .split("?")[1]
                         .split("&")[0]
@@ -38,19 +44,22 @@ export function UseGetApiArr({
             }
             if (limit && countOfRequestsMath >= limit) {
                 setArrRequest((state) =>
-                    [...state, ...data.items].slice(0, limit)
+                    [...state, ...data.tracks.items].slice(0, limit)
                 );
             } else {
-                if (data.next || data.previous) {
-                    setArrRequest((state) => [...state, ...data.items]);
+                if (data.tracks.next || data.tracks.previous) {
+                    setArrRequest((state) => [...state, ...data.tracks.items]);
                     window.history.replaceState(
                         "",
                         document.title,
                         window.location.href.replace(/#.*$/, "")
                     );
                 }
-                if (data.next === null && data.previous === null) {
-                    setArrRequest((state) => [...state, ...data.items]);
+                if (
+                    data.tracks.next === null &&
+                    data.tracks.previous === null
+                ) {
+                    setArrRequest((state) => [...state, ...data.tracks.items]);
                     window.history.replaceState(
                         "",
                         document.title,
@@ -69,9 +78,8 @@ export function UseGetApiArr({
         }
     }, [token]);
 
-    return {
-        arr: arrRequest,
-        isLoading,
-        isError,
-    };
+    return arrRequest.splice(
+        arrRequest.length - data?.total - 1,
+        arrRequest.length
+    );
 }

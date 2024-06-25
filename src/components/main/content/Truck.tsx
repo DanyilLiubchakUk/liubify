@@ -1,32 +1,25 @@
-import React, { useEffect } from "react";
 import { AddPlaylistIcon } from "../../icons/AddPlaylistIcon";
 import { Icon } from "../../icons/Icon";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import { userAPI } from "../../../api/userAPI";
+import { Item } from "../../../models/api";
 
 interface TruckProps {
     index: number;
+    track: Item;
 }
 
-export function Truck({ index }: TruckProps) {
+export function Truck({ index, track }: TruckProps) {
     const secondTabSize = useSelector(
         (state: RootState) => state.tabs.secondTabSize
     );
-    const curentPlaylist = useSelector(
-        (state: RootState) => state.playlistHistory.curentPlaylist
-    );
-    const token = useSelector((state: RootState) => state.token.value);
+    const timeOfTrack =
+        Math.floor((track.track.duration_ms / 1000 / 60) << 0) +
+        ":" +
+        (Math.floor((track.track.duration_ms / 1000) % 60) <= 9
+            ? "0" + Math.floor((track.track.duration_ms / 1000) % 60)
+            : Math.floor((track.track.duration_ms / 1000) % 60));
 
-    const { data, isLoading, isError } = userAPI.useFetchFolderByIDQuery({
-        token,
-        type: curentPlaylist.type,
-        id: curentPlaylist.id,
-    });
-
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
     return (
         <div
             className={`truckOfPlaylist grid px-4 gap-4 hover:bg-[#fff1] h-8 items-center rounded-md group ${
@@ -47,7 +40,7 @@ export function Truck({ index }: TruckProps) {
             </div>
             <div className="line-clamp-1 text-white">
                 <span className="hover:underline cursor-pointer">
-                    In the Bleak Midwinter (Prologue)
+                    {track.track.name}
                 </span>
             </div>
             {secondTabSize ? (
@@ -63,7 +56,7 @@ export function Truck({ index }: TruckProps) {
                 <span className="opacity-0 group-hover:opacity-100">
                     <AddPlaylistIcon />
                 </span>
-                <span className="grow text-end">1:12</span>
+                <span className="grow text-end">{timeOfTrack}</span>
                 <span className="opacity-0 group-hover:opacity-100">
                     <Icon d="M3 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                 </span>

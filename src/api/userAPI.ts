@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
     IAllPlaylists,
     IOtherUser,
+    ITracks,
     IUser,
     IUserTopsArtists,
     Itoken,
@@ -25,7 +26,7 @@ export const userAPI = createApi({
             IUserTopsArtists,
             {
                 token: Itoken;
-                countOfRequests?: number;
+                countOfOffsets?: number;
                 itemsPerRequest?: number;
             }
         >({
@@ -95,11 +96,33 @@ export const userAPI = createApi({
             }),
         }),
         fetchPlaylistTracksByID: build.query<
-            any,
-            { token: Itoken; id: string }
+            ITracks,
+            {
+                token: Itoken;
+                id: string;
+                countOfRequests?: number;
+                itemsPerRequest?: number;
+                type: string;
+            }
         >({
-            query: ({ token, id }: { token: Itoken; id: string }) => ({
+            query: ({
+                token,
+                id,
+                countOfRequests = 0,
+                itemsPerRequest = 20,
+                type,
+            }: {
+                token: Itoken;
+                id: string;
+                countOfRequests?: number;
+                itemsPerRequest?: number;
+                type: string;
+            }) => ({
                 url: `v1/playlists/${id}/tracks `,
+                params: {
+                    offset: countOfRequests,
+                    limit: itemsPerRequest,
+                },
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
