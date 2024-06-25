@@ -7,6 +7,7 @@ import {
     Itoken,
     Tfolder,
 } from "../models/api";
+
 export const userAPI = createApi({
     reducerPath: "curentUserSpotify",
     baseQuery: fetchBaseQuery({ baseUrl: "https://api.spotify.com/" }),
@@ -87,6 +88,18 @@ export const userAPI = createApi({
                 type: Tfolder;
             }) => ({
                 url: `v1/${type}s/${id}`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+        fetchPlaylistTracksByID: build.query<
+            any,
+            { token: Itoken; id: string }
+        >({
+            query: ({ token, id }: { token: Itoken; id: string }) => ({
+                url: `v1/playlists/${id}/tracks `,
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",

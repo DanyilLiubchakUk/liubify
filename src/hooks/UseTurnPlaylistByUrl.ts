@@ -8,13 +8,13 @@ import { useEffect } from "react";
 export function UseTurnPlaylistByUrl(isNew: boolean = true) {
     const url = useSelector((state: RootState) => state.leftTab.url);
     const token = useSelector((state: RootState) => state.token.value);
-    const allPlaylists = useSelector((state: RootState) => [
-        ...state.artistsSlice.artistsArr,
-        ...state.artistsSlice.playlistsArr,
-    ]);
-    const allPlaylistsHistory = useSelector(
-        (state: RootState) => state.playlistHistory.allPlaylists
+    const artistsArr = useSelector(
+        (state: RootState) => state.artistsSlice.artistsArr
     );
+    const playlistsArr = useSelector(
+        (state: RootState) => state.artistsSlice.playlistsArr
+    );
+    const allPlaylists = [...artistsArr, ...playlistsArr];
 
     const dispatch = useDispatch();
     const addToCurentIndex = UseAddToCurentIndex();

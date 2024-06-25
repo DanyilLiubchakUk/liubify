@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AddPlaylistIcon } from "../../icons/AddPlaylistIcon";
 import { Icon } from "../../icons/Icon";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { userAPI } from "../../../api/userAPI";
 
 interface TruckProps {
     index: number;
@@ -12,6 +13,20 @@ export function Truck({ index }: TruckProps) {
     const secondTabSize = useSelector(
         (state: RootState) => state.tabs.secondTabSize
     );
+    const curentPlaylist = useSelector(
+        (state: RootState) => state.playlistHistory.curentPlaylist
+    );
+    const token = useSelector((state: RootState) => state.token.value);
+
+    const { data, isLoading, isError } = userAPI.useFetchFolderByIDQuery({
+        token,
+        type: curentPlaylist.type,
+        id: curentPlaylist.id,
+    });
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
     return (
         <div
             className={`truckOfPlaylist grid px-4 gap-4 hover:bg-[#fff1] h-8 items-center rounded-md group ${
@@ -56,8 +71,3 @@ export function Truck({ index }: TruckProps) {
         </div>
     );
 }
-
-/*
-
-16px_minmax(120px,4fr)_minmax(120px,1fr)
-*/
