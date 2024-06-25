@@ -1,34 +1,51 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Itoken } from "../models/api";
-import { addToHistoryPlaylist } from "../store/playlistsHistory/playlistsHistorySlice";
-import { useLocation, useNavigate } from "react-router-dom";
-import { UseAddToCurentIndex } from "./UseAddToCurentIndex";
-import { RootState } from "../store/store";
 import { userAPI } from "../api/userAPI";
+import { RootState } from "../store/store";
+import { addToHistoryPlaylist } from "../store/playlistsHistory/playlistsHistorySlice";
+import { UseAddToCurentIndex } from "./UseAddToCurentIndex";
+import { useEffect } from "react";
 
-export function UseTurnPlaylistByUrl() {
-    const dispatch = useDispatch();
-    const location = useLocation();
-    const addToCurentIndex = UseAddToCurentIndex();
-    const url: string = location.pathname;
-    // const url: string = useSelector((state: RootState) => state.leftTab.url);
-    const token: Itoken = useSelector((state: RootState) => state.token.value);
-
-    const idOfLink = url.split("/")[2];
-    const typeOfLink = url.split("/")[1];
-
-    const { data, isLoading, isError } = userAPI.useFetchFolderByIDQuery(
-        {
-            token,
-            type: typeOfLink,
-            id: idOfLink,
-        },
-        { skip: typeOfLink !== "playlist" && typeOfLink !== "artist" }
+export function UseTurnPlaylistByUrl(isNew: boolean = true) {
+    const url = useSelector((state: RootState) => state.leftTab.url);
+    const token = useSelector((state: RootState) => state.token.value);
+    const allPlaylists = useSelector((state: RootState) => [
+        ...state.artistsSlice.artistsArr,
+        ...state.artistsSlice.playlistsArr,
+    ]);
+    const allPlaylistsHistory = useSelector(
+        (state: RootState) => state.playlistHistory.allPlaylists
     );
-    console.log(data);
-    if (data) {
-        dispatch(addToHistoryPlaylist(data));
-        addToCurentIndex();
-    }
+
+    const dispatch = useDispatch();
+    const addToCurentIndex = UseAddToCurentIndex();
+
+    const typeOfLink = url.split("/")[1];
+    const idOfLink = url.split("/")[2];
+
+    useEffect(() => {
+        if (isNew) {
+            const { data, isLoading, isError } =
+                userAPI.useFetchFolderByIDQuery(
+                    { token, type: typeOfLink, id: idOfLink },
+                    {
+                        skip:
+                            typeOfLink !== "playlist" &&
+                            typeOfLink !== "artist",
+                    }
+                );
+
+            if (data) {
+                dispatch(addToHistoryPlaylist(data));
+                addToCurentIndex();
+            }
+        } else {
+            const foundItem = allPlaylists.find((v) => v.id === idOfLink);
+            if (foundItem) {
+                dispatch(addToHistoryPlaylist(foundItem));
+                addToCurentIndex();
+            }
+        }
+    }, [url, isNew]);
+
     return () => {};
 }

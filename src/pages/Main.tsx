@@ -30,7 +30,7 @@ export function Main() {
         (state: RootState) => state.playlistHistory.curentPlaylist
     );
     const location = useLocation();
-    const turnPlaylistByUrl = UseTurnPlaylistByUrl();
+    const turnPlaylistByUrl = UseTurnPlaylistByUrl(false);
 
     useEffect(() => {
         dispatch(setUrl(location.pathname));
