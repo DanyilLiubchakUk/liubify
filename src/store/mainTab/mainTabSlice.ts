@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     indexOfSecondScroll: 0,
+    heightOfMainCover: 300,
 };
 
 const mainTab = createSlice({
@@ -15,10 +16,13 @@ const mainTab = createSlice({
                 type: string;
             }
         ) => {
-            state.indexOfSecondScroll = action.payload;
+            state.indexOfSecondScroll = (action.payload - state.heightOfMainCover + 150) / 100;
+        },
+        setHightOfMainCover: (state, action) => {
+            state.heightOfMainCover = action.payload;
         },
     },
 });
 
 export default mainTab.reducer; // reducer - all slice logic :)
-export const { setSecondTabScroll } = mainTab.actions; // actions
+export const { setSecondTabScroll, setHightOfMainCover } = mainTab.actions; // actions

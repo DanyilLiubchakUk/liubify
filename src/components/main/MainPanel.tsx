@@ -5,7 +5,10 @@ import "overlayscrollbars/overlayscrollbars.css";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { CoverMain } from "./topCover/CoverMain";
 import { useEffect, useRef, useState } from "react";
-import { setSecondTabScroll } from "../../store/mainTab/mainTabSlice";
+import {
+    setHightOfMainCover,
+    setSecondTabScroll,
+} from "../../store/mainTab/mainTabSlice";
 import { MainContent } from "./content/MainContent";
 import { prominent } from "color.js";
 import { IAllPlaylists, Itoken, Tfolder } from "../../models/api";
@@ -15,21 +18,12 @@ export function MainPanel({}: {}) {
     const dispatch = useDispatch();
     const ref = useRef<any>(null);
     const [colorOfDataLog, setColorOfDataLog] = useState("#222");
-    // const { playlistId } = useParams() as { playlistId: string };
-    // const { artistId } = useParams() as { artistId: string };
-    const [skip, setSkip] = useState(true);
-    const [curentFolder, setCurentFolder] = useState<Tfolder>("");
-    const [curentId, setCurentId] = useState("");
 
-    const token: Itoken = useSelector((state: RootState) => state.token.value);
     const playlistHistory: IAllPlaylists[] = useSelector(
         (state: RootState) => state.playlistHistory.allPlaylists
     );
     const curentIndex: number = useSelector(
         (state: RootState) => state.playlistHistory.curentIndex
-    );
-    const curentPlaylist: IAllPlaylists = useSelector(
-        (state: RootState) => state.playlistHistory.curentPlaylist
     );
 
     let imageDefault =
@@ -58,15 +52,20 @@ export function MainPanel({}: {}) {
         <main className="bg-neutral-900 h-[calc(100%)] rounded-md overflow-hidden">
             <OverlayScrollbarsComponent
                 events={{
-                    scroll: () =>
+                    scroll: () => {
                         dispatch(
                             setSecondTabScroll(
-                                (ref.current.getElement().firstChild.nextSibling
-                                    .scrollTop -
-                                    120) /
-                                    100
+                                ref.current.getElement().firstChild.nextSibling
+                                    .scrollTop
                             )
-                        ),
+                        );
+                        dispatch(
+                            setHightOfMainCover(
+                                ref.current.getElement().firstChild.nextSibling
+                                    .firstChild.nextSibling.offsetHeight
+                            )
+                        );
+                    },
                 }}
                 defer
                 options={{

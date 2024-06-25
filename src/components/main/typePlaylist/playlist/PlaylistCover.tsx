@@ -17,9 +17,6 @@ export function PlaylistCover({
     data,
     secondTabSize,
 }: playlistCoverProp) {
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
     return (
         <div className="grid grid-cols-12 gap-4">
             <div

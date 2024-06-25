@@ -22,7 +22,7 @@ export function UseNewClickedPlaylist({ clickedArr }: Iclicked) {
 
     return () => {
         if (clickedArr != curentPlaylist) {
-            navigate(`/${clickedArr.type}/${clickedArr.id}/`);
+            // navigate(`/${clickedArr.type}/${clickedArr.id}/`);
             dispatch(addToHistoryPlaylist(clickedArr));
             addToCurentIndex();
         }

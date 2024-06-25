@@ -3,19 +3,25 @@ import { RootState } from "../../store/store";
 import { Playlists } from "./Playlists";
 import { Playlist } from "./Playlist";
 import { FindReserch } from "./FindReserch";
-import { IItemArtist, Itoken } from "../../models/api";
+import { Itoken, IItemArtist } from "../../models/api";
 interface PlaylistsBlockProps {
-    artistsArr: IItemArtist[];
+    leftBarPlaylists: IItemArtist[];
     isError: boolean;
     isLoading: boolean;
 }
 export function PlaylistsBlock({
     isError,
     isLoading,
-    artistsArr,
+    leftBarPlaylists,
 }: PlaylistsBlockProps) {
     const firstTabSize: number | null = useSelector(
         (state: RootState) => state.tabs.firstTabSize
+    );
+    const serchPlaylistText = useSelector(
+        (state: RootState) => state.leftTab.seacrch
+    );
+    const typesFilter = useSelector(
+        (state: RootState) => state.leftTab.typesFilter
     );
     const token: Itoken = useSelector((state: RootState) => state.token.value);
     return (
@@ -47,7 +53,24 @@ export function PlaylistsBlock({
                     ) : null
                 ) : (
                     <>
-                        {artistsArr
+                        {leftBarPlaylists
+                            .filter((playlist) =>
+                                playlist.name
+                                    .toLowerCase()
+                                    .includes(serchPlaylistText.toLowerCase())
+                            )
+                            .filter((playlist) => {
+                                if (typesFilter.length > 0) {
+                                    return typesFilter.some((v) => {
+                                        return (
+                                            v.toLowerCase() ===
+                                            playlist.type.toLowerCase()
+                                        );
+                                    });
+                                } else {
+                                    return true;
+                                }
+                            })
                             .sort((playlistA, playlistB) => {
                                 if (
                                     playlistA.type === "artist" &&

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { IAllPlaylists, IItemArtist } from "../../models/api";
 import { RootState } from "../../store/store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { UseNewClickedPlaylist } from "../../hooks/UseNewClickedPlaylist";
 
@@ -13,9 +13,10 @@ export function Playlist({ playlist }: PlaylistProps) {
     const firstTabSize: number | null = useSelector(
         (state: RootState) => state.tabs.firstTabSize
     );
-    const newClickedPlaylist: () => void = UseNewClickedPlaylist({
-        clickedArr: playlist as unknown as IAllPlaylists,
-    });
+    const navigate = useNavigate();
+    const newClickedPlaylist = () => {
+        navigate(`/${playlist.type}/${playlist.id}/`);
+    };
 
     return (
         <div onClick={() => newClickedPlaylist()}>

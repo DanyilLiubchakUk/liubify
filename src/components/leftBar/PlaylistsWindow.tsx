@@ -54,7 +54,7 @@ export function PlaylistsWindow({}: {}) {
         <div className="bg-neutral-900 rounded-md p-3 pb-0 pr-0 overflow-hidden">
             <PlaylistsNavBar />
             <PlaylistsBlock
-                artistsArr={[...playlistsArr, ...artistsArr]}
+                leftBarPlaylists={[...playlistsArr, ...artistsArr]}
                 isLoading={artistsIsLoading}
                 isError={artistsIsError}
             />

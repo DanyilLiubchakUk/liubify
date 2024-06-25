@@ -1,12 +1,29 @@
 import { Icon } from "../icons/Icon";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { FindReserch } from "./FindReserch";
+import {
+    addTypeFilter,
+    removeTypeFilter,
+} from "../../store/leftTab/searchPlaylistsSlice";
+import { IItemArtist } from "../../models/api";
 
 export function PlaylistsNavBar({}: {}) {
     const firstTabSize: number | null = useSelector(
         (state: RootState) => state.tabs.firstTabSize
     );
+    const typesFilter = useSelector(
+        (state: RootState) => state.leftTab.typesFilter
+    );
+    const dispatch = useDispatch();
+
+    const typeFilterHandler = (name: string) => {
+        if (typesFilter.includes(name)) {
+            dispatch(removeTypeFilter(name));
+        } else {
+            dispatch(addTypeFilter(name));
+        }
+    };
     return (
         <nav className="pr-3">
             <div className="library flex justify-between flex-wrap gap-2">
@@ -35,13 +52,20 @@ export function PlaylistsNavBar({}: {}) {
             </div>
             <div className="searchMyPlaylist flex gap-3 items-center mt-4 flex-wrap">
                 <div className="flex gap-2 items-center text-stone-100 grow-[200] py-0.5 flex-wrap">
-                    {["Playlists", "Artists"].map((v) => {
+                    {["Playlist", "Artist"].map((v) => {
                         return (
                             <div
+                                onClick={() => {
+                                    typeFilterHandler(v);
+                                }}
                                 key={v}
-                                className="bg-stone-800 px-2 py-0.5 rounded-xl text-md font-bold hover:bg-stone-700 transition-colors"
+                                className={`px-2 py-0.5 rounded-xl text-md font-bold hover:bg-stone-700 transition-colors${
+                                    typesFilter.includes(v)
+                                        ? " bg-stone-600"
+                                        : " bg-stone-800"
+                                } transition-colors duration-700`}
                             >
-                                {v}
+                                {v}s
                             </div>
                         );
                     })}

@@ -72,7 +72,7 @@ export interface Image {
     width: number;
 }
 
-export type Tfolder = "" | "playlist" | "artist";
+export type Tfolder = string | "" | "playlist" | "artist";
 
 // interface of playlist
 export interface IPlaylist {

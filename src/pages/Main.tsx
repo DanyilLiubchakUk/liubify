@@ -7,11 +7,14 @@ import {
 import { LeftBar } from "../components/leftBar/LeftBar";
 import { MainPanel } from "../components/main/MainPanel";
 import { RightBar } from "../components/rightBar/RightBar";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSizeOfTabs } from "../store/tabs/tabsSlice";
 import { IAllPlaylists } from "../models/api";
 import { RootState } from "../store/store";
+import { useLocation } from "react-router-dom";
+import { setUrl } from "../store/leftTab/searchPlaylistsSlice";
+import { UseTurnPlaylistByUrl } from "../hooks/UseTurnPlaylistByUrl";
 
 export function Main() {
     const [showThirdTab, setShowThirdTab] = useState(true);
@@ -26,6 +29,14 @@ export function Main() {
     const curentPlaylist: IAllPlaylists = useSelector(
         (state: RootState) => state.playlistHistory.curentPlaylist
     );
+    const location = useLocation();
+    const turnPlaylistByUrl = UseTurnPlaylistByUrl();
+
+    useEffect(() => {
+        dispatch(setUrl(location.pathname));
+        turnPlaylistByUrl();
+    }, [location.pathname]);
+
     const firtResize = () => {
         if (ref1.current && ref2.current && ref3.current) {
             const currentFirstSize = ref1.current.getSize();
