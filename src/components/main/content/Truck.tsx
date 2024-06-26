@@ -56,7 +56,7 @@ export function Truck({ index, track }: TruckProps) {
                 <span className="opacity-0 group-hover:opacity-100">
                     <AddPlaylistIcon />
                 </span>
-                <span className="grow text-end">{secondTabSize}</span>
+                <span className="grow text-end">{timeOfTrack}</span>
                 <span className="opacity-0 group-hover:opacity-100">
                     <Icon d="M3 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                 </span>
