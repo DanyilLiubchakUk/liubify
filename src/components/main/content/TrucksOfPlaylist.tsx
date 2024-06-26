@@ -15,7 +15,7 @@ export function TrucksOfPlaylist({}: {}) {
     let fetchedTracks: Item[] = []
     if (curentPlaylist.type === "playlist") {
         fetchedTracks = UseGetApiTracksArr({
-            funcApi: userAPI.useFetchFolderByIDQuery,
+            funcApi: userAPI.useFetchPlaylistTracksByIDQuery,
             token: token,
             type: curentPlaylist.type,
             id: curentPlaylist.id,

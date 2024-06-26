@@ -100,7 +100,7 @@ export const userAPI = createApi({
             {
                 token: Itoken;
                 id: string;
-                countOfRequests?: number;
+                countOfOffsets?: number;
                 itemsPerRequest?: number;
                 type: string;
             }
@@ -108,19 +108,19 @@ export const userAPI = createApi({
             query: ({
                 token,
                 id,
-                countOfRequests = 0,
-                itemsPerRequest = 20,
+                countOfOffsets = 0,
+                itemsPerRequest = 15,
                 type,
             }: {
                 token: Itoken;
                 id: string;
-                countOfRequests?: number;
+                countOfOffsets?: number;
                 itemsPerRequest?: number;
                 type: string;
             }) => ({
-                url: `v1/playlists/${id}/tracks `,
+                url: `v1/playlists/${id}/tracks`,
                 params: {
-                    offset: countOfRequests,
+                    offset: countOfOffsets,
                     limit: itemsPerRequest,
                 },
                 headers: {
