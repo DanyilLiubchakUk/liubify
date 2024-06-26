@@ -31,8 +31,6 @@ export function CoverMain({ colorOfDataLog, url }: CoverMainProps) {
 
     const text = curentPlaylist.name;
 
-    // console.log(curentPlaylist);
-
     return (
         <div
             className={`w-full pt-[64px] p-6 brightness-100 relative top-[-64px] mb-[-64px] z-30`}

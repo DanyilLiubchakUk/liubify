@@ -42,6 +42,9 @@ export function TrucksOfPlaylist({}: {}) {
                 duration_ms: v.duration_ms,
                 name: v.name,
             },
+            added_by: {
+                display_name: v.artists[0].name,
+            },
         }));
     }
 

@@ -19,7 +19,6 @@ export function Truck({ index, track }: TruckProps) {
         (Math.floor((track.track.duration_ms / 1000) % 60) <= 9
             ? "0" + Math.floor((track.track.duration_ms / 1000) % 60)
             : Math.floor((track.track.duration_ms / 1000) % 60));
-
     return (
         <div
             className={`truckOfPlaylist grid px-4 gap-4 hover:bg-[#fff1] h-8 items-center rounded-md group ${
@@ -47,7 +46,8 @@ export function Truck({ index, track }: TruckProps) {
                 secondTabSize > 900 ? (
                     <div className="line-clamp-1">
                         <span className="group-hover:text-white hover:underline cursor-pointer">
-                            for King Country
+                            {track.added_by?.display_name ||
+                                track.track?.artists?.[0].name}
                         </span>
                     </div>
                 ) : null
