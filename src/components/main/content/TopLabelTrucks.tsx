@@ -1,17 +1,16 @@
-import React from "react";
 import { Icon } from "../../icons/Icon";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 
 export function TopLabelTrucks({}: {}) {
-    const secondTabSize = useSelector(
-        (state: RootState) => state.tabs.secondTabSize
-    );
+    const secondTabSize =
+        window.innerWidth -
+        (useSelector((state: RootState) => state.tabs.secondTabSize) || 0);
     return (
         <div
             className={`h-9 border-b border-[#fff2] px-4 grid items-center gap-4 text-stone-400 font-bold text-md ${
                 secondTabSize
-                    ? secondTabSize <= 650
+                    ? secondTabSize <= 900
                         ? "grid-cols-[16px_minmax(120px,4fr)_minmax(100px,1fr)]"
                         : "grid-cols-[16px_minmax(120px,4fr)_minmax(120px,2fr)_minmax(100px,1fr)]"
                     : ""
@@ -20,7 +19,7 @@ export function TopLabelTrucks({}: {}) {
             <div>#</div>
             <div>Title</div>
             {secondTabSize ? (
-                secondTabSize > 650 ? (
+                secondTabSize > 900 ? (
                     <div>Artist</div>
                 ) : null
             ) : null}

@@ -12,23 +12,47 @@ export function TrucksOfPlaylist({}: {}) {
     );
     const token = useSelector((state: RootState) => state.token.value);
 
-    let fetchedTracks: Item[] = []
-    if (curentPlaylist.type === "playlist") {
-        fetchedTracks = UseGetApiTracksArr({
-            funcApi: userAPI.useFetchPlaylistTracksByIDQuery,
-            token: token,
-            type: curentPlaylist.type,
-            id: curentPlaylist.id,
-        });
+    let fetchedTracks: Item[] = [];
+    const isPlaylist = curentPlaylist.type === "playlist";
+    const isArtist = curentPlaylist.type === "artist";
+
+    const playlistTracks = UseGetApiTracksArr({
+        funcApi: userAPI.useFetchPlaylistTracksByIDQuery,
+        token: token,
+        type: curentPlaylist.type,
+        id: curentPlaylist.id,
+        skip: isArtist,
+    });
+
+    const { data: fethedTopTracksOfArtist } =
+        userAPI.useFetchTopTracksOfArtistByIDQuery(
+            {
+                token,
+                id: curentPlaylist.id,
+            },
+            { skip: isPlaylist }
+        );
+
+    if (isPlaylist) {
+        fetchedTracks = playlistTracks;
+    } else if (isArtist && fethedTopTracksOfArtist) {
+        fetchedTracks = fethedTopTracksOfArtist.tracks.map((v) => ({
+            track: {
+                id: v.id,
+                duration_ms: v.duration_ms,
+                name: v.name,
+            },
+        }));
     }
 
-    
     return (
         <div className="px-6 pb-8 fill-stone-400 text-stone-400 font-medium">
             <TopLabelTrucks />
             <div>
                 {fetchedTracks.map((v, i) => {
-                    return <Truck key={i} index={i} track={v} />;
+                    return (
+                        <Truck key={i + ":" + v.track.id} index={i} track={v} />
+                    );
                 })}
             </div>
         </div>

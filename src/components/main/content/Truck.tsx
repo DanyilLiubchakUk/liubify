@@ -10,9 +10,9 @@ interface TruckProps {
 }
 
 export function Truck({ index, track }: TruckProps) {
-    const secondTabSize = useSelector(
-        (state: RootState) => state.tabs.secondTabSize
-    );
+    const secondTabSize =
+        window.innerWidth -
+        (useSelector((state: RootState) => state.tabs.secondTabSize) || 0);
     const timeOfTrack =
         Math.floor((track.track.duration_ms / 1000 / 60) << 0) +
         ":" +
@@ -24,7 +24,7 @@ export function Truck({ index, track }: TruckProps) {
         <div
             className={`truckOfPlaylist grid px-4 gap-4 hover:bg-[#fff1] h-8 items-center rounded-md group ${
                 secondTabSize
-                    ? secondTabSize <= 650
+                    ? secondTabSize <= 900
                         ? "grid-cols-[16px_minmax(120px,4fr)_minmax(100px,1fr)]"
                         : "grid-cols-[16px_minmax(120px,4fr)_minmax(120px,2fr)_minmax(100px,1fr)]"
                     : ""
@@ -44,7 +44,7 @@ export function Truck({ index, track }: TruckProps) {
                 </span>
             </div>
             {secondTabSize ? (
-                secondTabSize > 650 ? (
+                secondTabSize > 900 ? (
                     <div className="line-clamp-1">
                         <span className="group-hover:text-white hover:underline cursor-pointer">
                             for King Country
@@ -56,7 +56,7 @@ export function Truck({ index, track }: TruckProps) {
                 <span className="opacity-0 group-hover:opacity-100">
                     <AddPlaylistIcon />
                 </span>
-                <span className="grow text-end">{timeOfTrack}</span>
+                <span className="grow text-end">{secondTabSize}</span>
                 <span className="opacity-0 group-hover:opacity-100">
                     <Icon d="M3 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                 </span>

@@ -176,44 +176,44 @@ export enum OwnerType {
 }
 
 export interface Tracks {
-    href: string;
+    href?: string;
     items: Item[];
-    limit: number;
-    next: string | null;
-    offset: number;
-    previous: string | null;
-    total: number;
+    limit?: number;
+    next?: string | null;
+    offset?: number;
+    previous?: string | null;
+    total?: number;
 }
 
 export interface Item {
-    added_at: Date;
-    added_by: Owner;
-    is_local: boolean;
-    primary_color: null;
+    added_at?: Date;
+    added_by?: Owner;
+    is_local?: boolean;
+    primary_color?: null;
     track: Track;
-    video_thumbnail: VideoThumbnail;
+    video_thumbnail?: VideoThumbnail;
 }
 
 export interface Track {
-    preview_url: null | string;
-    available_markets: string[];
-    explicit: boolean;
-    type: TrackType;
-    episode: boolean;
-    track: boolean;
-    album: Album;
-    artists: Owner[];
-    disc_number: number;
-    track_number: number;
+    preview_url?: null | string;
+    available_markets?: string[];
+    explicit?: boolean;
+    type?: TrackType;
+    episode?: boolean;
+    track?: boolean;
+    album?: Album;
+    artists?: Owner[];
+    disc_number?: number;
+    track_number?: number;
     duration_ms: number;
-    external_ids: ExternalIDS;
-    external_urls: ExternalUrls;
-    href: string;
+    external_ids?: ExternalIDS;
+    external_urls?: ExternalUrls;
+    href?: string;
     id: string;
     name: string;
-    popularity: number;
-    uri: string;
-    is_local: boolean;
+    popularity?: number;
+    uri?: string;
+    is_local?: boolean;
 }
 
 export interface Album {
@@ -252,4 +252,112 @@ export enum TrackType {
 
 export interface VideoThumbnail {
     url: null;
+}
+
+// Artists top tracks(they got from artist id)
+
+export interface IArtistsTopTracks {
+    album: Album;
+    artists: Artist[];
+    disc_number: number;
+    duration_ms: number;
+    explicit: boolean;
+    external_ids: ExternalIDS;
+    external_urls: ExternalUrls;
+    href: string;
+    id: string;
+    is_local: boolean;
+    is_playable: boolean;
+    name: string;
+    popularity: number;
+    preview_url: string;
+    track_number: number;
+    type: IArtistsTopTrackType;
+    uri: string;
+}
+
+export interface Album {
+    album_type: AlbumType;
+    artists: Artist[];
+    external_urls: ExternalUrls;
+    href: string;
+    id: string;
+    images: Image[];
+    is_playable: boolean;
+    name: string;
+    release_date: Date;
+    release_date_precision: ReleaseDatePrecision;
+    total_tracks: number;
+    type: AlbumTypeEnum;
+    uri: string;
+}
+
+export enum AlbumType {
+    Single = "single",
+}
+
+export interface Artist {
+    external_urls: ExternalUrls;
+    href: string;
+    id: ID;
+    name: Name;
+    type: ArtistType;
+    uri: URI;
+}
+
+export interface ExternalUrls {
+    spotify: string;
+}
+
+export enum ID {
+    The0JrsAkTEhQvGQ4REFtSe5X = "0jrsAkTEhQvGQ4REFtSe5X",
+    The0LyfQWJT6NXafLPZqxe9Of = "0LyfQWJT6nXafLPZqxe9Of",
+    The0OCiizjmum5FKZOy8EwTHA = "0OCiizjmum5fKZOy8ewTHA",
+    The21WkRmVqBLt0Cd9OJ7YZkW = "21wkRmVqBLt0Cd9OJ7yZkW",
+    The2CMmIudgukX0NvW43VUVOz = "2cMmIudgukX0nvW43VUVOz",
+    The59A4SG6JBogxt0Zx9UXAEa = "59a4SG6JBogxt0zx9UXAEa",
+}
+
+export enum Name {
+    SkubenichBrothers = "Skubenich Brothers",
+    VariousArtists = "Various Artists",
+    СкубеничАндрей = "Скубенич Андрей",
+    СкубеничВиталий = "Скубенич Виталий",
+    СкубеничИгорь = "Скубенич Игорь",
+    СкубеничМаксим = "Скубенич Максим",
+}
+
+export enum ArtistType {
+    Artist = "artist",
+}
+
+export enum URI {
+    SpotifyArtist0JrsAkTEhQvGQ4REFtSe5X = "spotify:artist:0jrsAkTEhQvGQ4REFtSe5X",
+    SpotifyArtist0LyfQWJT6NXafLPZqxe9Of = "spotify:artist:0LyfQWJT6nXafLPZqxe9Of",
+    SpotifyArtist0OCiizjmum5FKZOy8EwTHA = "spotify:artist:0OCiizjmum5fKZOy8ewTHA",
+    SpotifyArtist21WkRmVqBLt0Cd9OJ7YZkW = "spotify:artist:21wkRmVqBLt0Cd9OJ7yZkW",
+    SpotifyArtist2CMmIudgukX0NvW43VUVOz = "spotify:artist:2cMmIudgukX0nvW43VUVOz",
+    SpotifyArtist59A4SG6JBogxt0Zx9UXAEa = "spotify:artist:59a4SG6JBogxt0zx9UXAEa",
+}
+
+export interface Image {
+    url: string;
+    width: number;
+    height: number;
+}
+
+export enum ReleaseDatePrecision {
+    Day = "day",
+}
+
+export enum AlbumTypeEnum {
+    Album = "album",
+}
+
+export interface ExternalIDS {
+    isrc: string;
+}
+
+export enum IArtistsTopTrackType {
+    Track = "track",
 }

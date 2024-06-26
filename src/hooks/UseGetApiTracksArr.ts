@@ -6,6 +6,7 @@ interface UseGetApiTrucksArrProps {
     token: Itoken;
     type: string;
     id: string;
+    skip?: boolean;
 }
 
 export function UseGetApiTracksArr({
@@ -13,16 +14,20 @@ export function UseGetApiTracksArr({
     token,
     type,
     id,
+    skip,
 }: UseGetApiTrucksArrProps) {
     const [countOfOffsets, setCountOfOffsets] = useState(0);
     const [arrRequest, setArrRequest] = useState<Item[]>([]);
 
-    const { data }: { data: Tracks } = funcApi({
-        token,
-        countOfOffsets,
-        type,
-        id,
-    });
+    const { data }: { data: Tracks } = funcApi(
+        {
+            token,
+            countOfOffsets,
+            type,
+            id,
+        },
+        { skip }
+    );
 
     useEffect(() => {
         setCountOfOffsets(0);
