@@ -12,9 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSizeOfTabs } from "../store/tabs/tabsSlice";
 import { IAllPlaylists } from "../models/api";
 import { RootState } from "../store/store";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setUrl } from "../store/leftTab/searchPlaylistsSlice";
 import { UseTurnPlaylistByUrl } from "../hooks/UseTurnPlaylistByUrl";
+import { RedirectURI } from "../api/API_DATA";
 
 export function Main() {
     const [showThirdTab, setShowThirdTab] = useState(true);
@@ -29,13 +30,31 @@ export function Main() {
     const curentPlaylist: IAllPlaylists = useSelector(
         (state: RootState) => state.playlistHistory.curentPlaylist
     );
+    const token = useSelector((state: RootState) => state.token.value);
     const location = useLocation();
     const turnPlaylistByUrl = UseTurnPlaylistByUrl(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(setUrl(location.pathname));
         turnPlaylistByUrl();
     }, [location.pathname]);
+
+    useEffect(() => {
+        if (!window.location.hash.includes("access_token=")) {
+            if (token === null) {
+                localStorage.setItem("redirectUrl", window.location.href);
+            }
+        }
+    }, []);
+    useEffect(() => {
+    if (token && !window.location.hash.includes("access_token=")) {
+        const redirectUrl = localStorage.getItem("redirectUrl");
+        if (redirectUrl) {
+            navigate(redirectUrl.split(RedirectURI).join(""))
+        }
+    }
+    }, [token, window.location.hash]);
 
     const firtResize = () => {
         if (ref1.current && ref2.current && ref3.current) {

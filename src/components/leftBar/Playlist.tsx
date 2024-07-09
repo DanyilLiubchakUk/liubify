@@ -15,7 +15,7 @@ export function Playlist({ playlist }: PlaylistProps) {
     );
     const navigate = useNavigate();
     const newClickedPlaylist = () => {
-        navigate(`/${playlist.type}/${playlist.id}/`);
+        navigate(`/${playlist.type}/${playlist.id}`);
     };
 
     return (

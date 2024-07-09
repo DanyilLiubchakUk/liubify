@@ -32,12 +32,14 @@ const playlistsHistorySlice = createSlice({
                 type: string;
             }
         ) => {
-            state.allPlaylists.splice(
-                state.curentIndex + 1,
-                state.allPlaylists.length - 1
-            );
-            state.allPlaylists.push(action.payload);
-            state.curentPlaylist = state.allPlaylists[state.curentIndex];
+            if (action.payload.id !== state.curentPlaylist.id) {
+                state.allPlaylists.splice(
+                    state.curentIndex + 1,
+                    state.allPlaylists.length - 1
+                );
+                state.allPlaylists.push(action.payload);
+                state.curentPlaylist = state.allPlaylists[state.curentIndex];
+            }
         },
         addCurentIndex: (state) => {
             if (state.curentIndex < state.allPlaylists.length - 1) {

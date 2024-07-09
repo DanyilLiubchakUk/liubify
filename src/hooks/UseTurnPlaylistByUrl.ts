@@ -22,18 +22,15 @@ export function UseTurnPlaylistByUrl(isNew: boolean = true) {
     const typeOfLink = url.split("/")[1];
     const idOfLink = url.split("/")[2];
 
+    const { data, isLoading, isError } = userAPI.useFetchFolderByIDQuery(
+        { token, type: typeOfLink, id: idOfLink },
+        {
+            skip: (typeOfLink !== "playlist" && typeOfLink !== "artist") && !isNew,
+        }
+    );
+
     useEffect(() => {
         if (isNew) {
-            const { data, isLoading, isError } =
-                userAPI.useFetchFolderByIDQuery(
-                    { token, type: typeOfLink, id: idOfLink },
-                    {
-                        skip:
-                            typeOfLink !== "playlist" &&
-                            typeOfLink !== "artist",
-                    }
-                );
-
             if (data) {
                 dispatch(addToHistoryPlaylist(data));
                 addToCurentIndex();
@@ -45,7 +42,7 @@ export function UseTurnPlaylistByUrl(isNew: boolean = true) {
                 addToCurentIndex();
             }
         }
-    }, [url, isNew]);
+    }, [url, isNew, data]);
 
     return () => {};
 }
