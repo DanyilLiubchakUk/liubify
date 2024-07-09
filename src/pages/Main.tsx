@@ -30,14 +30,19 @@ export function Main() {
     const curentPlaylist: IAllPlaylists = useSelector(
         (state: RootState) => state.playlistHistory.curentPlaylist
     );
+    const allPlaylists = useSelector(
+        (state: RootState) => state.playlistHistory.allPlaylists
+    );
     const token = useSelector((state: RootState) => state.token.value);
     const location = useLocation();
-    const turnPlaylistByUrl = UseTurnPlaylistByUrl(false);
-    const navigate = useNavigate()
+    const turnPlaylistByUrl = UseTurnPlaylistByUrl(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(setUrl(location.pathname));
-        turnPlaylistByUrl();
+        if (!allPlaylists.some((p) => p.id === location.pathname.split('/')[2]) && location.pathname !== "/") {
+            turnPlaylistByUrl();
+        }
     }, [location.pathname]);
 
     useEffect(() => {
@@ -48,12 +53,12 @@ export function Main() {
         }
     }, []);
     useEffect(() => {
-    if (token && !window.location.hash.includes("access_token=")) {
-        const redirectUrl = localStorage.getItem("redirectUrl");
-        if (redirectUrl) {
-            navigate(redirectUrl.split(RedirectURI).join(""))
+        if (token && !window.location.hash.includes("access_token=")) {
+            const redirectUrl = localStorage.getItem("redirectUrl");
+            if (redirectUrl) {
+                navigate(redirectUrl.split(RedirectURI).join(""));
+            }
         }
-    }
     }, [token, window.location.hash]);
 
     const firtResize = () => {

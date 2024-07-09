@@ -25,7 +25,7 @@ export function UseTurnPlaylistByUrl(isNew: boolean = true) {
     const { data, isLoading, isError } = userAPI.useFetchFolderByIDQuery(
         { token, type: typeOfLink, id: idOfLink },
         {
-            skip: (typeOfLink !== "playlist" && typeOfLink !== "artist") && !isNew,
+            skip: (typeOfLink !== "playlist" && typeOfLink !== "artist") || !isNew || token === null,
         }
     );
 
