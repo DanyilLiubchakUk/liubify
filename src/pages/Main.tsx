@@ -30,6 +30,9 @@ export function Main() {
     const curentPlaylist: IAllPlaylists = useSelector(
         (state: RootState) => state.playlistHistory.curentPlaylist
     );
+    const curentIndex: number = useSelector(
+        (state: RootState) => state.playlistHistory.curentIndex
+    );
     const allPlaylists = useSelector(
         (state: RootState) => state.playlistHistory.allPlaylists
     );
@@ -39,9 +42,14 @@ export function Main() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(setUrl(location.pathname));
-        if (!allPlaylists.some((p) => p.id === location.pathname.split('/')[2]) && location.pathname !== "/") {
+        if (
+            allPlaylists[curentIndex]?.id !== location.pathname.split("/")[2]
+        ) {
+            dispatch(setUrl(location.pathname));
+
             turnPlaylistByUrl();
+            if (location.pathname !== "/") {
+            }
         }
     }, [location.pathname]);
 
