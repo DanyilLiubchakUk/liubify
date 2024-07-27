@@ -1,8 +1,12 @@
 import { AddPlaylistIcon } from "../../icons/AddPlaylistIcon";
 import { Icon } from "../../icons/Icon";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { Item } from "../../../models/api";
+import {
+    addCurentIndexOfTruck,
+    addToTrucksHistory,
+} from "../../../store/tracksHistore/tracksHistoreSlice";
 
 interface TruckProps {
     index: number;
@@ -10,6 +14,8 @@ interface TruckProps {
 }
 
 export function Truck({ index, track }: TruckProps) {
+    const dispatch = useDispatch();
+
     const secondTabSize =
         window.innerWidth -
         (useSelector((state: RootState) => state.tabs.secondTabSize) || 0);
@@ -27,15 +33,27 @@ export function Truck({ index, track }: TruckProps) {
                         ? "grid-cols-[16px_minmax(120px,4fr)_minmax(100px,1fr)]"
                         : "grid-cols-[16px_minmax(120px,4fr)_minmax(120px,2fr)_minmax(100px,1fr)]"
                     : ""
-            }`}
+            }${track.track.preview_url === null ? " opacity-50" : ""}`}
         >
             <div>
                 <span className="group-hover:hidden">{index + 1}</span>
-                <Icon
-                    d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"
-                    viewBox="24"
-                    className="hidden group-hover:block fill-white"
-                />
+                <button
+                    className="flex items-center justify-center"
+                    onClick={() => {
+                        if (track.track && track.track.preview_url) {
+                            dispatch(addCurentIndexOfTruck());
+                            dispatch(
+                                addToTrucksHistory(track.track.preview_url)
+                            );
+                        }
+                    }}
+                >
+                    <Icon
+                        d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"
+                        viewBox="24"
+                        className="hidden group-hover:block fill-white"
+                    />
+                </button>
             </div>
             <div className="line-clamp-1 text-white">
                 <span className="hover:underline cursor-pointer">

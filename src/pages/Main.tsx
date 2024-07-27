@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setUrl } from "../store/leftTab/searchPlaylistsSlice";
 import { UseTurnPlaylistByUrl } from "../hooks/UseTurnPlaylistByUrl";
 import { RedirectURI } from "../api/API_DATA";
+import { Player } from "../components/player/Player";
 
 export function Main() {
     const [showThirdTab, setShowThirdTab] = useState(true);
@@ -221,16 +222,7 @@ export function Main() {
                     <RightBar thirdCollapce={thirdCollapce} />
                 </Panel>
             </PanelGroup>
-            <div className="h-[72px]">
-                play
-                <button
-                    onClick={() => {
-                        thirdExpend();
-                    }}
-                >
-                    On right
-                </button>
-            </div>
+            <Player />
         </div>
     );
 }

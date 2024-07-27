@@ -6,6 +6,7 @@ import artistsSliceReducer from "./usersArtists/usersArtistsSlice";
 import { userAPI } from "../api/userAPI";
 import mainTab from "./mainTab/mainTabSlice";
 import playlistHistory from "./playlistsHistory/playlistsHistorySlice";
+import tracksHistore from "./tracksHistore/tracksHistoreSlice";
 
 export const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
         [userAPI.reducerPath]: userAPI.reducer,
         mainTab: mainTab,
         playlistHistory: playlistHistory,
+        tracksHistore: tracksHistore
         // can add more reducers, just make more slices
     },
     middleware: (getDefaultMiddleware) =>
