@@ -15,7 +15,7 @@ export function TimeLine({ max, now, setCurrentTime }: TimeLineProps) {
     return (
         <div className="flex justify-between gap-2 items-center text-xs">
             <div className="min-w-10 text-end">{formatTime(now)}</div>
-            <div className="w-full  relative group [&:has(input:focus-visible)>div]:outline [&:has(input:focus-visible)>div>div>div]:bg-[#1DB954] [&:has(input:focus-visible)>div>div:last-child]:opacity-100">
+            <div className="w-full  relative group [&:has(input:focus-visible)>div]:outline [&:has(input:focus-visible)>div>div>div]:bg-spotify-green [&:has(input:focus-visible)>div>div:last-child]:opacity-100">
                 <input
                     type="range"
                     min="0.0000000000000001"
@@ -43,7 +43,7 @@ export function TimeLine({ max, now, setCurrentTime }: TimeLineProps) {
                 <div className="w-full absolute top-1.5 flex items-center pointer-events-none rounded-sm outline-1 outline-white outline-offset-2">
                     <div className="rounded-sm h-1 w-full bg-neutral-900 overflow-hidden">
                         <div
-                            className="bg-white h-1 w-full rounded-sm relative -left-full group-hover:bg-[#1DB954]"
+                            className="bg-white h-1 w-full rounded-sm relative -left-full group-hover:bg-spotify-green"
                             style={{ left: `${(now / max) * 100 - 100}%` }}
                         ></div>
                     </div>
