@@ -40,10 +40,17 @@ export function Truck({ index, track }: TruckProps) {
                 <button
                     className="flex items-center justify-center"
                     onClick={() => {
-                        if (track.track && track.track.preview_url) {
+                        if (track.track && track.track.preview_url && track.track.name && track.track.id) {
                             dispatch(addCurentIndexOfTruck());
                             dispatch(
-                                addToTrucksHistory(track.track.preview_url)
+                                addToTrucksHistory({
+                                    url: track.track.preview_url,
+                                    title: track.track.name,
+                                    id: track.track.id,
+                                    img: track.track.album?.images?.[0]?.url || '',
+                                    artist: track.added_by?.display_name ||
+                                    track.track?.artists?.[0].name || 'Unknown Artist'
+                                })
                             );
                         }
                     }}

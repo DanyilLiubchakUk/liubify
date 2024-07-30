@@ -67,9 +67,9 @@ export interface Followers {
 }
 
 export interface Image {
-    height: number;
+    height?: number;
     url: string;
-    width: number;
+    width?: number;
 }
 
 export type Tfolder = string | "" | "playlist" | "artist";
@@ -203,19 +203,19 @@ export interface Track {
 }
 
 export interface Album {
-    available_markets: string[];
-    type: string;
-    album_type: string;
-    href: string;
-    id: string;
-    images: Image[];
-    name: string;
-    release_date: Date;
-    release_date_precision: string;
-    uri: string;
-    artists: IOwner[];
-    external_urls: ExternalUrls;
-    total_tracks: number;
+    available_markets?: string[];
+    type?: string;
+    album_type?: string;
+    href?: string;
+    id?: string;
+    images?: Image[];
+    name?: string;
+    release_date?: Date;
+    release_date_precision?: string;
+    uri?: string;
+    artists?: IOwner[];
+    external_urls?: ExternalUrls;
+    total_tracks?: number;
 }
 
 export interface VideoThumbnail {
@@ -225,7 +225,7 @@ export interface VideoThumbnail {
 // Artists top tracks(they got from artist id)
 
 export interface IArtistsTopTracks {
-    album: Album;
+    album?: Album;
     artists: Artist[];
     disc_number: number;
     duration_ms: number;
@@ -245,19 +245,19 @@ export interface IArtistsTopTracks {
 }
 
 export interface Album {
-    album_type: string;
-    artists: Artist[];
-    external_urls: ExternalUrls;
-    href: string;
-    id: string;
-    images: Image[];
-    is_playable: boolean;
-    name: string;
-    release_date: Date;
-    release_date_precision: string;
-    total_tracks: number;
-    type: string;
-    uri: string;
+    album_type?: string;
+    artists?: Artist[];
+    external_urls?: ExternalUrls;
+    href?: string;
+    id?: string;
+    images?: Image[];
+    is_playable?: boolean;
+    name?: string;
+    release_date?: Date;
+    release_date_precision?: string;
+    total_tracks?: number;
+    type?: string;
+    uri?: string;
 }
 
 export interface Artist {

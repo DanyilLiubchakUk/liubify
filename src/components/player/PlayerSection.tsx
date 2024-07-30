@@ -12,7 +12,8 @@ export function PlayerSection({
     setCurrentTime
 }: PlayerSectionProps) {
     return (
-        <div className="flex flex-col w-2/5 max-w-[722px]">
+        <div className="flex flex-col
+        justify-center w-2/5 max-w-[722px]">
             <div className="flex justify-center gap-2">
                 <button className="p-2">
                     <svg

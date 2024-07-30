@@ -2,9 +2,15 @@ interface TimeLineProps {
     max: number;
     now: number;
     setCurrentTime: (time: number) => void;
+    showTime?: boolean;
 }
 
-export function TimeLine({ max, now, setCurrentTime }: TimeLineProps) {
+export function TimeLine({
+    max,
+    now,
+    setCurrentTime,
+    showTime = true,
+}: TimeLineProps) {
     const formatTime = (seconds: number): string => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = Math.floor(seconds % 60);
@@ -14,7 +20,9 @@ export function TimeLine({ max, now, setCurrentTime }: TimeLineProps) {
     };
     return (
         <div className="flex justify-between gap-2 items-center text-xs">
-            <div className="min-w-10 text-end">{formatTime(now)}</div>
+            {showTime ? (
+                <div className="min-w-10 text-end">{formatTime(now)}</div>
+            ) : null}
             <div className="w-full  relative group [&:has(input:focus-visible)>div]:outline [&:has(input:focus-visible)>div>div>div]:bg-spotify-green [&:has(input:focus-visible)>div>div:last-child]:opacity-100">
                 <input
                     type="range"
@@ -53,7 +61,9 @@ export function TimeLine({ max, now, setCurrentTime }: TimeLineProps) {
                     ></div>
                 </div>
             </div>
-            <div className="min-w-10">{formatTime(max)}</div>
+            {showTime ? (
+                <div className="min-w-10">{formatTime(max)}</div>
+            ) : null}
         </div>
     );
 }
