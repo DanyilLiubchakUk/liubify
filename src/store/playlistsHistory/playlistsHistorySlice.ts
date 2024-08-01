@@ -37,8 +37,11 @@ const playlistsHistorySlice = createSlice({
                     state.curentIndex + 1,
                     state.allPlaylists.length - 1
                 );
-                state.allPlaylists.push(action.payload);
-                state.curentPlaylist = state.allPlaylists[state.curentIndex];
+                if (state.allPlaylists.length !== 0) {
+                    state.curentIndex += 1;
+                }
+                state.allPlaylists[state.curentIndex] = action.payload;
+                state.curentPlaylist = action.payload;
             }
         },
         addCurentIndex: (state) => {

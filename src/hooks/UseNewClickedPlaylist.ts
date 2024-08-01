@@ -24,7 +24,6 @@ export function UseNewClickedPlaylist({ clickedArr }: Iclicked) {
         if (clickedArr != curentPlaylist) {
             // navigate(`/${clickedArr.type}/${clickedArr.id}/`);
             dispatch(addToHistoryPlaylist(clickedArr));
-            addToCurentIndex();
         }
     };
 }

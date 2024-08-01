@@ -3,7 +3,8 @@ import { userAPI } from "../api/userAPI";
 import { RootState } from "../store/store";
 import { addToHistoryPlaylist } from "../store/playlistsHistory/playlistsHistorySlice";
 import { UseAddToCurentIndex } from "./UseAddToCurentIndex";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { IAllPlaylists, IItemArtist } from "../models/api";
 
 export function UseTurnPlaylistByUrl(isNew: boolean = true) {
     const url = useSelector((state: RootState) => state.leftTab.url);
@@ -29,20 +30,23 @@ export function UseTurnPlaylistByUrl(isNew: boolean = true) {
         }
     );
 
+    const [previousData, setPreviousData] = useState<IAllPlaylists | null>(
+        null
+    );
+    const [previousItem, setPreviousItem] = useState<IItemArtist | null>(null);
+
     useEffect(() => {
-        if (isNew) {
-            if (data) {
-                dispatch(addToHistoryPlaylist(data));
-                addToCurentIndex();
-            }
-        } else {
+        if (isNew && data && data !== previousData) {
+            dispatch(addToHistoryPlaylist(data));
+            setPreviousData(data);
+        } else if (!isNew) {
             const foundItem = allPlaylists.find((v) => v.id === idOfLink);
-            if (foundItem) {
+            if (foundItem && foundItem !== previousItem) {
                 dispatch(addToHistoryPlaylist(foundItem));
-                addToCurentIndex();
+                setPreviousItem(foundItem);
             }
         }
-    }, [url, isNew, data]);
+    }, [url, isNew, data, allPlaylists]);
 
     return () => {};
 }
