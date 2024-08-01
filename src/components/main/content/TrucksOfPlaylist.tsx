@@ -36,8 +36,6 @@ export function TrucksOfPlaylist({}: {}) {
     if (isPlaylist) {
         fetchedTracks = playlistTracks;
     } else if (isArtist && fethedTopTracksOfArtist) {
-        console.log(fethedTopTracksOfArtist);
-
         fetchedTracks = fethedTopTracksOfArtist.tracks.map((v) => ({
             track: {
                 id: v.id,

@@ -43,9 +43,7 @@ export function Main() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (
-            allPlaylists[curentIndex]?.id !== location.pathname.split("/")[2]
-        ) {
+        if (allPlaylists[curentIndex]?.id !== location.pathname.split("/")[2]) {
             dispatch(setUrl(location.pathname));
 
             turnPlaylistByUrl();
@@ -222,7 +220,7 @@ export function Main() {
                     <RightBar thirdCollapce={thirdCollapce} />
                 </Panel>
             </PanelGroup>
-            <Player />
+            <Player thirdExpend={thirdExpend} thirdCollapce={thirdCollapce} />
         </div>
     );
 }

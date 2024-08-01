@@ -30,7 +30,7 @@ export function ScrollText({ text, className = "" }: ScrollTextProps) {
                                     {
                                         transform: `translateX(${
                                             parent.clientWidth -
-                                            child.clientWidth
+                                            child.clientWidth - 7.5
                                         }px)`,
                                         easing: "ease-in-out",
                                     },

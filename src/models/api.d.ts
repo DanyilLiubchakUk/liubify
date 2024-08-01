@@ -272,3 +272,11 @@ export interface Artist {
 export interface ExternalIDS {
     isrc: string;
 }
+
+export interface ITrackPlayedData {
+    url: string;
+    title: string;
+    id: string;
+    img: string;
+    artist: string;
+}

@@ -4,16 +4,24 @@ interface PlayerSectionProps {
     trackTime: number;
     timeOFWholeTrack: number;
     setCurrentTime: (time: number) => void;
+    controllTrack: {
+        back: () => void;
+        forward: () => void;
+        pause: () => void;
+    };
 }
 
 export function PlayerSection({
     trackTime,
     timeOFWholeTrack,
-    setCurrentTime
+    setCurrentTime,
+    controllTrack,
 }: PlayerSectionProps) {
     return (
-        <div className="flex flex-col
-        justify-center w-2/5 max-w-[722px]">
+        <div
+            className="flex flex-col
+        justify-center w-2/5 max-w-[722px]"
+        >
             <div className="flex justify-center gap-2">
                 <button className="p-2">
                     <svg
@@ -28,7 +36,7 @@ export function PlayerSection({
                         <path d="m7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z"></path>
                     </svg>
                 </button>
-                <button className="p-2">
+                <button className="p-2" onClick={() => controllTrack.back()}>
                     <svg
                         data-encore-id="icon"
                         role="img"
@@ -41,7 +49,10 @@ export function PlayerSection({
                     </svg>
                 </button>
                 <span>
-                    <button className="play bg-stone-400 hover:bg-stone-100 h-8 w-8 m-2 hover:scale-[1.04] flex items-center justify-center rounded-full fill-black">
+                    <button
+                        className="play bg-stone-400 hover:bg-stone-100 h-8 w-8 m-2 hover:scale-[1.04] flex items-center justify-center rounded-full fill-black"
+                        onClick={() => controllTrack.pause()}
+                    >
                         <svg
                             data-encore-id="icon"
                             role="img"
@@ -54,7 +65,7 @@ export function PlayerSection({
                         </svg>
                     </button>
                 </span>
-                <button className="p-2">
+                <button className="p-2" onClick={() => controllTrack.forward()}>
                     <svg
                         data-encore-id="icon"
                         role="img"
@@ -79,7 +90,11 @@ export function PlayerSection({
                     </svg>
                 </button>
             </div>
-            <TimeLine max={timeOFWholeTrack} now={trackTime} setCurrentTime={setCurrentTime} />
+            <TimeLine
+                max={timeOFWholeTrack}
+                now={trackTime}
+                setCurrentTime={setCurrentTime}
+            />
         </div>
     );
 }

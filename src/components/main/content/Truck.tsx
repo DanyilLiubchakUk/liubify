@@ -3,10 +3,7 @@ import { Icon } from "../../icons/Icon";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { Item } from "../../../models/api";
-import {
-    addCurentIndexOfTruck,
-    addToTrucksHistory,
-} from "../../../store/tracksHistore/tracksHistoreSlice";
+import { addToTrucksHistory } from "../../../store/tracksHistore/tracksHistoreSlice";
 
 interface TruckProps {
     index: number;
@@ -40,16 +37,24 @@ export function Truck({ index, track }: TruckProps) {
                 <button
                     className="flex items-center justify-center"
                     onClick={() => {
-                        if (track.track && track.track.preview_url && track.track.name && track.track.id) {
-                            dispatch(addCurentIndexOfTruck());
+                        if (
+                            track.track &&
+                            track.track.preview_url &&
+                            track.track.name &&
+                            track.track.id
+                        ) {
                             dispatch(
                                 addToTrucksHistory({
                                     url: track.track.preview_url,
                                     title: track.track.name,
                                     id: track.track.id,
-                                    img: track.track.album?.images?.[0]?.url || '',
-                                    artist: track.added_by?.display_name ||
-                                    track.track?.artists?.[0].name || 'Unknown Artist'
+                                    img:
+                                        track.track.album?.images?.[0]?.url ||
+                                        "",
+                                    artist:
+                                        track.added_by?.display_name ||
+                                        track.track?.artists?.[0].name ||
+                                        "Unknown Artist",
                                 })
                             );
                         }

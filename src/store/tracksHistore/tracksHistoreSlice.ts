@@ -1,17 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ITrackPlayedData } from "../../models/api";
 
 interface Ihistory {
-    allAudio: ITrack[];
+    allAudio: ITrackPlayedData[];
     curentIndex: number;
-    curentAudio: ITrack;
-}
-
-interface ITrack {
-    url: string;
-    title: string;
-    id: string;
-    img: string;
-    artist: string;
+    curentAudio: ITrackPlayedData;
 }
 
 const initialState: Ihistory = {
@@ -27,7 +20,7 @@ const tracksHistoreSlice = createSlice({
         addToTrucksHistory: (
             state,
             action: {
-                payload: ITrack;
+                payload: ITrackPlayedData;
                 type: string;
             }
         ) => {
@@ -36,24 +29,23 @@ const tracksHistoreSlice = createSlice({
                     state.curentIndex + 1,
                     state.allAudio.length - 1
                 );
-                state.allAudio.push(action.payload);
-                state.curentAudio = state.allAudio[state.curentIndex];
+                if (state.allAudio.length !== 0) {
+                    state.curentIndex += 1;
+                }
+                state.allAudio[state.curentIndex] = action.payload;
+                state.curentAudio = action.payload;
             }
         },
         addCurentIndexOfTruck: (state) => {
-            if (state.curentIndex <= state.allAudio.length - 1) {
+            if (state.curentIndex < state.allAudio.length - 1) {
                 state.curentIndex += 1;
-                if (state.allAudio[state.curentIndex]) {
-                    state.curentAudio = state.allAudio[state.curentIndex];
-                }
+                state.curentAudio = state.allAudio[state.curentIndex];
             }
         },
         subtractCurentIndexOfTruck: (state) => {
             if (state.curentIndex > 0) {
                 state.curentIndex -= 1;
-                if (state.allAudio[state.curentIndex]) {
-                    state.curentAudio = state.allAudio[state.curentIndex];
-                }
+                state.curentAudio = state.allAudio[state.curentIndex];
             }
         },
     },
