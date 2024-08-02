@@ -55,6 +55,7 @@ export function Truck({ index, track }: TruckProps) {
                                         track.added_by?.display_name ||
                                         track.track?.artists?.[0].name ||
                                         "Unknown Artist",
+                                        albumName: track.track.album?.name || ""
                                 })
                             );
                         }

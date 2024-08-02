@@ -279,4 +279,5 @@ export interface ITrackPlayedData {
     id: string;
     img: string;
     artist: string;
+    albumName: string
 }

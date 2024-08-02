@@ -1,13 +1,26 @@
 import { useEffect, useRef } from "react";
+import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 
 interface ScrollTextProps {
     text: string;
     className?: string;
+    blockColor?: string;
+    height?: string;
 }
 
-export function ScrollText({ text, className = "" }: ScrollTextProps) {
+export function ScrollText({
+    text,
+    className = "",
+    blockColor = "black",
+    height = "20",
+}: ScrollTextProps) {
     const refParent = useRef<HTMLDivElement | null>(null);
     const refChild = useRef<HTMLDivElement | null>(null);
+
+    const thirdTabSize = useSelector(
+        (state: RootState) => state.tabs.secondTabSize
+    );
 
     useEffect(() => {
         const resetAnimation = () => {
@@ -16,7 +29,10 @@ export function ScrollText({ text, className = "" }: ScrollTextProps) {
                 const child = refChild.current;
                 let animation: Animation | null = null;
 
-                if (parent.clientWidth < child.clientWidth) {
+                if (
+                    parent.clientWidth < child.clientWidth &&
+                    text === child.textContent
+                ) {
                     parent.classList.add("after:opacity-100");
                     const handleMouseEnter = () => {
                         if (!animation || animation.playState === "finished") {
@@ -30,8 +46,20 @@ export function ScrollText({ text, className = "" }: ScrollTextProps) {
                                     {
                                         transform: `translateX(${
                                             parent.clientWidth -
-                                            child.clientWidth - 7.5
+                                            child.clientWidth -
+                                            7.5
                                         }px)`,
+                                        easing: "ease-in-out",
+                                    },
+                                    {
+                                        transform: `translateX(${
+                                            parent.clientWidth -
+                                            child.clientWidth
+                                        }px)`,
+                                        easing: "ease-in-out",
+                                    },
+                                    {
+                                        transform: "translateX(7.5px)",
                                         easing: "ease-in-out",
                                     },
                                     {
@@ -41,9 +69,12 @@ export function ScrollText({ text, className = "" }: ScrollTextProps) {
                                 ],
                                 {
                                     duration: 10000,
-                                    iterations: 5,
+                                    iterations: 3,
                                 }
                             );
+                            animation.onfinish = () => {
+                                parent.classList.remove("before:opacity-100");
+                            };
                         }
                     };
 
@@ -58,11 +89,11 @@ export function ScrollText({ text, className = "" }: ScrollTextProps) {
                             handleMouseEnter
                         );
                     };
-                }else {
-                if (parent.classList.contains("after:opacity-100")) {
-                    parent.classList.remove("after:opacity-100");
-                    parent.classList.remove("before:opacity-100");
-                }
+                } else {
+                    if (parent.classList.contains("after:opacity-100")) {
+                        parent.classList.remove("after:opacity-100");
+                        parent.classList.remove("before:opacity-100");
+                    }
                 }
             }
         };
@@ -81,17 +112,44 @@ export function ScrollText({ text, className = "" }: ScrollTextProps) {
         if (refChild.current) {
             observer.observe(refChild.current);
         }
-
         return () => {
             if (refChild.current) {
                 observer.unobserve(refChild.current);
+                const parent = refParent.current;
+                if (parent && parent.classList.contains("after:opacity-100")) {
+                    parent.classList.remove("after:opacity-100");
+                    parent.classList.remove("before:opacity-100");
+                }
             }
         };
-    }, [text]);
+    }, [text, refParent, refChild, thirdTabSize]);
     return (
         <div
             ref={refParent}
-            className="relative h-5 right-0 left-0 overflow-hidden after:absolute after:right-0 after:w-2 after:h-full after:bg-gradient-to-r after:from-transparent after:to-black before:absolute before:left-0 before:w-2 before:h-full before:bg-gradient-to-l before:from-transparent before:to-black before:z-10 before:opacity-0 after:opacity-0 before:transition-opacity after:transition-opacity"
+            className={`relative right-0 left-0 overflow-hidden 
+                after:absolute 
+                after:right-0 
+                after:w-2 
+                after:h-full 
+                after:bg-gradient-to-r 
+                after:from-transparent 
+                after:z-10
+                after:opacity-0 
+                after:transition-opacity 
+
+                before:absolute 
+                before:left-0 
+                before:w-2 
+                before:h-full 
+                before:bg-gradient-to-l 
+                before:from-transparent 
+                before:z-10 
+                before:opacity-0 
+                before:transition-opacity 
+
+                after:to-${blockColor} 
+                before:to-${blockColor}`}
+            style={{ height: `${height}px` }}
         >
             <div ref={refChild} className="absolute">
                 <span className={`${className} whitespace-nowrap`}>{text}</span>
