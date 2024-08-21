@@ -8,6 +8,7 @@ import { Icon } from "../icons/Icon";
 import { TimeLine } from "./TimeLine";
 import { ScrollText } from "../ScrollText";
 import { UsePlay } from "../../hooks/UsePlay";
+import { ClickAnimaiton } from "../icons/ClickAnimaiton";
 interface PlayerProps {
     thirdCollapce: () => void;
     thirdExpend: () => void;
@@ -49,27 +50,29 @@ export function Player({ thirdExpend, thirdCollapce }: PlayerProps) {
                         className="min-w-14 aspect-square bg-center bg-cover rounded-md relative group"
                         style={{ backgroundImage: `url(${currentTrack.img})` }}
                     >
-                        <button
-                            className="absolute top-1 right-1 w-6 h-6 z-10 bg-black rounded-full items-center justify-center hidden group-hover:flex"
-                            onClick={() => {
-                                setShowThirdTab(!showThirdTab);
-                                if (showThirdTab) {
-                                    thirdCollapce();
-                                } else {
-                                    thirdExpend();
-                                }
-                            }}
-                        >
-                            <span>
-                                {showThirdTab ? (
-                                    <Icon d="M.47 4.97a.75.75 0 0 1 1.06 0L8 11.44l6.47-6.47a.75.75 0 1 1 1.06 1.06L8 13.56.47 6.03a.75.75 0 0 1 0-1.06z" />
-                                ) : (
-                                    <Icon d="M.47 11.03a.75.75 0 0 0 1.06 0L8 4.56l6.47 6.47a.75.75 0 1 0 1.06-1.06L8 2.44.47 9.97a.75.75 0 0 0 0 1.06z" />
-                                )}
-                            </span>
-                        </button>
+                        <ClickAnimaiton>
+                            <button
+                                className="absolute top-1 right-1 w-6 h-6 z-10 bg-black rounded-full items-center justify-center hidden group-hover:flex"
+                                onClick={() => {
+                                    setShowThirdTab(!showThirdTab);
+                                    if (showThirdTab) {
+                                        thirdCollapce();
+                                    } else {
+                                        thirdExpend();
+                                    }
+                                }}
+                            >
+                                <span>
+                                    {showThirdTab ? (
+                                        <Icon d="M.47 4.97a.75.75 0 0 1 1.06 0L8 11.44l6.47-6.47a.75.75 0 1 1 1.06 1.06L8 13.56.47 6.03a.75.75 0 0 1 0-1.06z" />
+                                    ) : (
+                                        <Icon d="M.47 11.03a.75.75 0 0 0 1.06 0L8 4.56l6.47 6.47a.75.75 0 1 0 1.06-1.06L8 2.44.47 9.97a.75.75 0 0 0 0 1.06z" />
+                                    )}
+                                </span>
+                            </button>
+                        </ClickAnimaiton>
                     </div>
-                    <div className="flex flex-col flex-1 justify-center text-sm">
+                    <div className="flex flex-col flex-1 justify-center text-sm bg-black">
                         <ScrollText
                             text={currentTrack.title}
                             className="font-bold text-white"

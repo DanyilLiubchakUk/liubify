@@ -44,6 +44,7 @@ export function TrucksOfPlaylist({}: {}) {
                 uri: v.uri,
                 preview_url: v.preview_url,
                 album: {
+                    name: v.album?.name || '',
                     images: [
                         {
                             url: v.album && v.album.images ? v.album.images[0].url : '',

@@ -10,7 +10,7 @@ interface Ihistory {
 const initialState: Ihistory = {
     allAudio: [],
     curentIndex: 0,
-    curentAudio: { url: "", title: "", id: "", img: "", artist: "" },
+    curentAudio: { url: "", title: "", id: "", img: "", artist: "", albumName:"" },
 };
 
 const tracksHistoreSlice = createSlice({
