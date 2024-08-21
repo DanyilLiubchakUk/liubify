@@ -11,7 +11,7 @@ export function RightBar({ thirdCollapce }: RightBarProps) {
     const ref = useRef<any>(null);
     const [scroll, setScroll] = useState(0);
     return (
-        <aside className="bg-neutral-900 fill-stone-400 h-full">
+        <aside className="bg-neutral-900 rounded-md fill-stone-400 h-full">
             <OverlayScrollbarsComponent
                 defer
                 events={{

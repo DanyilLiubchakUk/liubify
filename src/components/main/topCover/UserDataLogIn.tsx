@@ -9,6 +9,7 @@ import { PlayButton } from "../../PlayButton";
 import { UseAddToCurentIndex } from "../../../hooks/UseAddToCurentIndex";
 import { UseSubtractOfCurentIndex } from "../../../hooks/UseSubtractOfCurentIndex";
 import { animate, useAnimate } from "framer-motion";
+import { ClickAnimaiton } from "../../icons/ClickAnimaiton";
 
 type AnimaitonSequence = Parameters<typeof animate>[0];
 
@@ -119,17 +120,21 @@ export function UserDataLogIn({ colorOfDataLog }: UserDataLogInProps) {
                 </div>
             </div>
             <div className="userData font-bold text-sm flex gap-2 fill-white">
-                <div className="rounded-full bg-neutral-950 h-8 w-8 hover:scale-[1.04] flex items-center justify-center">
-                    <Icon d="M8 1.5a4 4 0 0 0-4 4v3.27a.75.75 0 0 1-.1.373L2.255 12h11.49L12.1 9.142a.75.75 0 0 1-.1-.374V5.5a4 4 0 0 0-4-4zm-5.5 4a5.5 5.5 0 0 1 11 0v3.067l2.193 3.809a.75.75 0 0 1-.65 1.124H10.5a2.5 2.5 0 0 1-5 0H.957a.75.75 0 0 1-.65-1.124L2.5 8.569V5.5zm4.5 8a1 1 0 1 0 2 0H7z" />
-                </div>
-                <div className="rounded-full bg-neutral-950 p-1 hover:scale-[1.04] flex items-center justify-center">
-                    <div
-                        className="w-6 h-6 rounded-full bg-cover bg-center"
-                        style={{
-                            backgroundImage: `url(${data?.images[0].url})`,
-                        }}
-                    ></div>
-                </div>
+                <ClickAnimaiton>
+                    <div className="rounded-full bg-neutral-950 h-8 w-8 hover:scale-[1.04] flex items-center justify-center">
+                        <Icon d="M8 1.5a4 4 0 0 0-4 4v3.27a.75.75 0 0 1-.1.373L2.255 12h11.49L12.1 9.142a.75.75 0 0 1-.1-.374V5.5a4 4 0 0 0-4-4zm-5.5 4a5.5 5.5 0 0 1 11 0v3.067l2.193 3.809a.75.75 0 0 1-.65 1.124H10.5a2.5 2.5 0 0 1-5 0H.957a.75.75 0 0 1-.65-1.124L2.5 8.569V5.5zm4.5 8a1 1 0 1 0 2 0H7z" />
+                    </div>
+                </ClickAnimaiton>
+                <ClickAnimaiton>
+                    <div className="rounded-full bg-neutral-950 p-1 hover:scale-[1.04] flex items-center justify-center">
+                        <div
+                            className="w-6 h-6 rounded-full bg-cover bg-center"
+                            style={{
+                                backgroundImage: `url(${data?.images[0].url})`,
+                            }}
+                        ></div>
+                    </div>
+                </ClickAnimaiton>
             </div>
         </div>
     );

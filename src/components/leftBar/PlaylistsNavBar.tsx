@@ -7,6 +7,7 @@ import {
     removeTypeFilter,
 } from "../../store/leftTab/searchPlaylistsSlice";
 import { IItemArtist } from "../../models/api";
+import { ClickAnimaiton } from "../icons/ClickAnimaiton";
 
 export function PlaylistsNavBar({}: {}) {
     const firstTabSize: number | null = useSelector(
@@ -37,16 +38,20 @@ export function PlaylistsNavBar({}: {}) {
                 </div>
                 <div className="icons flex gap-3 items-center grow justify-end">
                     <span className="rounded-full hover:bg-neutral-800 transition-colors duration-300 p-1">
-                        <Icon
-                            d="M15.25 8a.75.75 0 0 1-.75.75H8.75v5.75a.75.75 0 0 1-1.5 0V8.75H1.5a.75.75 0 0 1 0-1.5h5.75V1.5a.75.75 0 0 1 1.5 0v5.75h5.75a.75.75 0 0 1 .75.75z"
-                            width="16"
-                        />
+                        <ClickAnimaiton>
+                            <Icon
+                                d="M15.25 8a.75.75 0 0 1-.75.75H8.75v5.75a.75.75 0 0 1-1.5 0V8.75H1.5a.75.75 0 0 1 0-1.5h5.75V1.5a.75.75 0 0 1 1.5 0v5.75h5.75a.75.75 0 0 1 .75.75z"
+                                width="16"
+                            />
+                        </ClickAnimaiton>
                     </span>
                     <span className="rounded-full hover:bg-neutral-800 transition-colors duration-300 p-1">
-                        <Icon
-                            d="M7.19 1A.749.749 0 0 1 8.47.47L16 7.99l-7.53 7.521a.75.75 0 0 1-1.234-.815.75.75 0 0 1 .174-.243l5.72-5.714H.75a.75.75 0 1 1 0-1.498h12.38L7.41 1.529a.749.749 0 0 1-.22-.53z"
-                            width="16"
-                        />
+                        <ClickAnimaiton>
+                            <Icon
+                                d="M7.19 1A.749.749 0 0 1 8.47.47L16 7.99l-7.53 7.521a.75.75 0 0 1-1.234-.815.75.75 0 0 1 .174-.243l5.72-5.714H.75a.75.75 0 1 1 0-1.498h12.38L7.41 1.529a.749.749 0 0 1-.22-.53z"
+                                width="16"
+                            />
+                        </ClickAnimaiton>
                     </span>
                 </div>
             </div>
@@ -54,19 +59,20 @@ export function PlaylistsNavBar({}: {}) {
                 <div className="flex gap-2 items-center text-stone-100 grow-[200] py-0.5 flex-wrap">
                     {["Playlist", "Artist"].map((v) => {
                         return (
-                            <div
-                                onClick={() => {
-                                    typeFilterHandler(v);
-                                }}
-                                key={v}
-                                className={`px-2 py-0.5 rounded-xl text-md font-bold hover:bg-stone-700 transition-colors${
-                                    typesFilter.includes(v)
-                                        ? " bg-stone-600"
-                                        : " bg-stone-800"
-                                } transition-colors duration-700`}
-                            >
-                                {v}s
-                            </div>
+                            <ClickAnimaiton key={v}>
+                                <div
+                                    onClick={() => {
+                                        typeFilterHandler(v);
+                                    }}
+                                    className={`px-2 py-0.5 rounded-xl text-md font-bold hover:bg-stone-700 transition-colors${
+                                        typesFilter.includes(v)
+                                            ? " bg-stone-600"
+                                            : " bg-stone-800"
+                                    } transition-colors duration-700`}
+                                >
+                                    {v}s
+                                </div>
+                            </ClickAnimaiton>
                         );
                     })}
                 </div>

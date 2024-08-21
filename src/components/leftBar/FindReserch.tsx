@@ -51,10 +51,9 @@ export function FindReserch({}: {}) {
             {/*w-full or not(size of screen) */}
             <div
                 className={`flex rounded-md transition-all duration-500 relative${
-                    isOpen
-                        ? " w-[170px] bg-neutral-800 overflow-hidden"
-                        : " w-[32px]"
+                    isOpen ? " bg-neutral-800 overflow-hidden" : ""
                 }`}
+                style={{ width: `${isOpen ? " 170px" : "32px"}` }}
                 ref={inputRef}
             >
                 <span

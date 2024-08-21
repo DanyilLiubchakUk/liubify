@@ -8,13 +8,16 @@ export function TopLabelTrucks({}: {}) {
         (useSelector((state: RootState) => state.tabs.secondTabSize) || 0);
     return (
         <div
-            className={`h-9 border-b border-[#fff2] px-4 grid items-center gap-4 text-stone-400 font-bold text-md ${
-                secondTabSize
-                    ? secondTabSize <= 900
-                        ? "grid-cols-[16px_minmax(120px,4fr)_minmax(100px,1fr)]"
-                        : "grid-cols-[16px_minmax(120px,4fr)_minmax(120px,2fr)_minmax(100px,1fr)]"
-                    : ""
-            }`}
+            className={`h-9 border-b border-[#fff2] px-4 grid items-center gap-4 text-stone-400 font-bold text-md`}
+            style={{
+                gridTemplateColumns: `${
+                    secondTabSize
+                        ? secondTabSize <= 900
+                            ? "16px minmax(120px,4fr) minmax(100px,1fr)"
+                            : "16px minmax(120px,4fr) minmax(120px,2fr) minmax(100px,1fr)"
+                        : ""
+                }`,
+            }}
         >
             <div>#</div>
             <div>Title</div>

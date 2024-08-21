@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { Item } from "../../../models/api";
 import { addToTrucksHistory } from "../../../store/tracksHistore/tracksHistoreSlice";
+import { ClickAnimaiton } from "../../icons/ClickAnimaiton";
 
 interface TruckProps {
     index: number;
@@ -25,48 +26,56 @@ export function Truck({ index, track }: TruckProps) {
     return (
         <div
             className={`truckOfPlaylist grid px-4 gap-4 hover:bg-[#fff1] h-8 items-center rounded-md group ${
-                secondTabSize
-                    ? secondTabSize <= 900
-                        ? "grid-cols-[16px_minmax(120px,4fr)_minmax(100px,1fr)]"
-                        : "grid-cols-[16px_minmax(120px,4fr)_minmax(120px,2fr)_minmax(100px,1fr)]"
-                    : ""
-            }${track.track.preview_url === null ? " opacity-50" : ""}`}
+                track.track.preview_url === null ? " opacity-50" : ""
+            }`}
+            style={{
+                gridTemplateColumns: `${
+                    secondTabSize
+                        ? secondTabSize <= 900
+                            ? "16px minmax(120px,4fr) minmax(100px,1fr)"
+                            : "16px minmax(120px,4fr) minmax(120px,2fr) minmax(100px,1fr)"
+                        : ""
+                }`,
+            }}
         >
             <div>
                 <span className="group-hover:hidden">{index + 1}</span>
-                <button
-                    className="flex items-center justify-center"
-                    onClick={() => {
-                        if (
-                            track.track &&
-                            track.track.preview_url &&
-                            track.track.name &&
-                            track.track.id
-                        ) {
-                            dispatch(
-                                addToTrucksHistory({
-                                    url: track.track.preview_url,
-                                    title: track.track.name,
-                                    id: track.track.id,
-                                    img:
-                                        track.track.album?.images?.[0]?.url ||
-                                        "",
-                                    artist:
-                                        track.added_by?.display_name ||
-                                        track.track?.artists?.[0].name ||
-                                        "Unknown Artist",
-                                        albumName: track.track.album?.name || ""
-                                })
-                            );
-                        }
-                    }}
-                >
-                    <Icon
-                        d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"
-                        viewBox="24"
-                        className="hidden group-hover:block fill-white"
-                    />
-                </button>
+                <ClickAnimaiton>
+                    <button
+                        className="flex items-center justify-center"
+                        onClick={() => {
+                            if (
+                                track.track &&
+                                track.track.preview_url &&
+                                track.track.name &&
+                                track.track.id
+                            ) {
+                                dispatch(
+                                    addToTrucksHistory({
+                                        url: track.track.preview_url,
+                                        title: track.track.name,
+                                        id: track.track.id,
+                                        img:
+                                            track.track.album?.images?.[0]
+                                                ?.url || "",
+                                        artist:
+                                            track.added_by?.display_name ||
+                                            track.track?.artists?.[0].name ||
+                                            "Unknown Artist",
+                                        albumName:
+                                            track.track.album?.name || "",
+                                    })
+                                );
+                            }
+                        }}
+                    >
+                        <Icon
+                            d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"
+                            viewBox="24"
+                            className="hidden group-hover:block fill-white"
+                        />
+                    </button>
+                </ClickAnimaiton>
             </div>
             <div className="line-clamp-1 text-white">
                 <span className="hover:underline cursor-pointer">
@@ -89,7 +98,9 @@ export function Truck({ index, track }: TruckProps) {
                 </span>
                 <span className="grow text-end">{timeOfTrack}</span>
                 <span className="opacity-0 group-hover:opacity-100">
-                    <Icon d="M3 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                    <ClickAnimaiton>
+                        <Icon d="M3 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm6.5 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zM16 8a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                    </ClickAnimaiton>
                 </span>
             </div>
         </div>
