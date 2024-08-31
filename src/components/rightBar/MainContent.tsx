@@ -5,6 +5,7 @@ import { Icon } from "../icons/Icon";
 import { AddPlaylistIcon } from "../icons/AddPlaylistIcon";
 import { ClickAnimaiton } from "../icons/ClickAnimaiton";
 import { useState } from "react";
+import { A11yFocus } from "../focus/A11yFocus";
 
 interface MainContentProps {}
 
@@ -45,45 +46,55 @@ export function MainContent({}: MainContentProps) {
                     <span className="text-sm">Open queue</span>
                 </div>
                 <div>
-                    <div
-                        className="flex items-center gap-2 p-2 group bg-neutral-800 hover:bg-neutral-700 rounded-md"
-                        onMouseEnter={() => setHoverState(true)}
-                        onMouseLeave={() => setHoverState(false)}
-                    >
-                        <button className="flex items-center justify-center">
-                            <ClickAnimaiton>
-                                <Icon
-                                    d="M10 2v9.5a2.75 2.75 0 1 1-2.75-2.75H8.5V2H10zm-1.5 8.25H7.25A1.25 1.25 0 1 0 8.5 11.5v-1.25z"
-                                    className="group-hover:hidden fill-white"
-                                />
-                                <Icon
-                                    d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"
-                                    viewBox="24"
-                                    className="hidden group-hover:block fill-white"
-                                />
-                            </ClickAnimaiton>
-                        </button>
-                        <div
-                            className="w-[46px] aspect-square bg-center bg-cover rounded-md"
-                            style={{
-                                backgroundImage: `url(${curentAudio.img})`,
-                            }}
-                        ></div>
-                        <div className="flex-1 bg-inherit">
-                            <ScrollText
-                                text={curentAudio.title}
-                                className="text-white"
-                                height="22"
-                                hoverState={hoverState}
-                            />
-                            <ScrollText
-                                text={curentAudio.artist}
-                                className="text-sm font-bold text-stone-400"
-                                height="19"
-                                hoverState={hoverState}
-                            />
-                        </div>
-                    </div>
+                    <A11yFocus>
+                        <ul>
+                            {[null, null, null].map((v) => (
+                                <li>
+                                    <div
+                                        className="flex items-center gap-2 p-2 group bg-neutral-800 hover:bg-neutral-700 rounded-md [&:has(>div>div>button:focus-visible)]:bg-neutral-700 [&:has(>div>div>button:focus-visible)]:shadow-[inset_0_0_0_1px_#fff]"
+                                        onMouseEnter={() => setHoverState(true)}
+                                        onMouseLeave={() =>
+                                            setHoverState(false)
+                                        }
+                                    >
+                                        <ClickAnimaiton>
+                                            <button className="flex items-center justify-center group/focus">
+                                                <Icon
+                                                    d="M10 2v9.5a2.75 2.75 0 1 1-2.75-2.75H8.5V2H10zm-1.5 8.25H7.25A1.25 1.25 0 1 0 8.5 11.5v-1.25z"
+                                                    className="group-hover:hidden group-focus-visible/focus:hidden fill-white"
+                                                />
+                                                <Icon
+                                                    d="m7.05 3.606 13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z"
+                                                    viewBox="24"
+                                                    className="hidden group-hover:block group-focus-visible/focus:block fill-white"
+                                                />
+                                            </button>
+                                        </ClickAnimaiton>
+                                        <div
+                                            className="w-[46px] aspect-square bg-center bg-cover rounded-md"
+                                            style={{
+                                                backgroundImage: `url(${curentAudio.img})`,
+                                            }}
+                                        ></div>
+                                        <div className="flex-1 bg-inherit">
+                                            <ScrollText
+                                                text={curentAudio.title}
+                                                className="text-white"
+                                                height="22"
+                                                hoverState={hoverState}
+                                            />
+                                            <ScrollText
+                                                text={curentAudio.artist}
+                                                className="text-sm font-bold text-stone-400"
+                                                height="19"
+                                                hoverState={hoverState}
+                                            />
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </A11yFocus>
                 </div>
             </div>
         </div>

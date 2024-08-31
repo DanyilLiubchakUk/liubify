@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
-import { IAllPlaylists, IItemArtist } from "../../models/api";
+import { IItemArtist } from "../../models/api";
 import { RootState } from "../../store/store";
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { UseNewClickedPlaylist } from "../../hooks/UseNewClickedPlaylist";
+import { Link } from "react-router-dom";
 
 interface PlaylistProps {
     playlist: IItemArtist;
@@ -13,13 +11,12 @@ export function Playlist({ playlist }: PlaylistProps) {
     const firstTabSize: number | null = useSelector(
         (state: RootState) => state.tabs.firstTabSize
     );
-    const navigate = useNavigate();
-    const newClickedPlaylist = () => {
-        navigate(`/${playlist.type}/${playlist.id}`);
-    };
 
     return (
-        <div onClick={() => newClickedPlaylist()}>
+        <Link
+            to={`/${playlist.type}/${playlist.id}`}
+            className="focus-visible:outline-none [&:focus-visible>div]:shadow-[inset_0_0_0_1px_#fff] [&:focus-visible>div]:bg-stone-800"
+        >
             <div className="playlist grid grid-cols-12 items-center gap-3 hover:bg-stone-800 transition-colors px-2 py-1.5 mr-1 rounded-lg">
                 <div
                     className={`flex gap-3 items-center${
@@ -64,6 +61,6 @@ export function Playlist({ playlist }: PlaylistProps) {
                       )
                     : null}
             </div>
-        </div>
+        </Link>
     );
 }

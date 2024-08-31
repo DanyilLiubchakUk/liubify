@@ -45,6 +45,11 @@ export function FindReserch({}: {}) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    useEffect(() => {
+        if (isOpen) {
+            inputRef.current?.querySelector("input")?.focus();
+        }
+    }, [isOpen]);
 
     return (
         <div className="flex justify-between gap-1 items-center grow">
@@ -56,16 +61,16 @@ export function FindReserch({}: {}) {
                 style={{ width: `${isOpen ? " 170px" : "32px"}` }}
                 ref={inputRef}
             >
-                <span
+                <button
                     onClick={handeOpen}
-                    className="p-2 hover:bg-neutral-800 transition-colors duration-300 rounded-full"
+                    className="p-2 m-0.5 hover:bg-neutral-800 transition-colors duration-300 rounded-full"
                 >
                     <Icon d="M7 1.75a5.25 5.25 0 1 0 0 10.5 5.25 5.25 0 0 0 0-10.5zM.25 7a6.75 6.75 0 1 1 12.096 4.12l3.184 3.185a.75.75 0 1 1-1.06 1.06L11.304 12.2A6.75 6.75 0 0 1 .25 7z" />
-                </span>
+                </button>
                 {isOpen && (
                     <>
                         <input
-                            className="bg-transparent outline-none text-xs w-28 text-neutral-400"
+                            className="bg-transparent m-1 rounded-sm outline-none text-xs text-neutral-400 focus-visible:outline-white w-[calc(100%_-_32px)]"
                             type="text"
                             value={search}
                             onChange={(e) =>
@@ -84,10 +89,10 @@ export function FindReserch({}: {}) {
                     </>
                 )}
             </div>
-            <div className="flex gap-2 items-center py-1 pr-3 pl-4 hover:text-stone-100 hover:fill-stone-100 transition-colors duration-300">
+            <button className="flex gap-2 items-center py-1 pr-3 pl-4 hover:text-stone-100 hover:fill-stone-100 focus-visible:text-stone-100 focus-visible:fill-stone-100 transition-colors duration-300">
                 <span className="text-sm">Recents</span>
                 <Icon d="M15 14.5H5V13h10v1.5zm0-5.75H5v-1.5h10v1.5zM15 3H5V1.5h10V3zM3 3H1V1.5h2V3zm0 11.5H1V13h2v1.5zm0-5.75H1v-1.5h2v1.5z" />
-            </div>
+            </button>
         </div>
     );
 }

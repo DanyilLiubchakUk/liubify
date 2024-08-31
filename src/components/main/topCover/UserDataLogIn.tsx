@@ -111,7 +111,7 @@ export function UserDataLogIn({ colorOfDataLog }: UserDataLogInProps) {
                             : ""
                     }`}
                 >
-                    <PlayButton />
+                    <PlayButton enableFocus={indexOfSecondScroll >= 1.2} />
                     <div className="relative grow">
                         <span className="font-bold text-2xl text-ellipsis overflow-hidden whitespace-nowrap left-0 right-0 top-0 translate-y-[-50%] absolute">
                             Beauty song

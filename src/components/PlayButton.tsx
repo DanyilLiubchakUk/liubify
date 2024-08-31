@@ -7,9 +7,14 @@ type AnimaitonSequence = Parameters<typeof animate>[0];
 interface PlayButtonProos {
     isGray?: boolean;
     height?: string;
+    enableFocus?: boolean;
 }
 
-export function PlayButton({ isGray = false, height = "48" }: PlayButtonProos) {
+export function PlayButton({
+    isGray = false,
+    height = "48",
+    enableFocus = true,
+}: PlayButtonProos) {
     const [hoverState, setHoverState] = useState(false);
 
     const [scope, animate] = useAnimate();
@@ -31,6 +36,7 @@ export function PlayButton({ isGray = false, height = "48" }: PlayButtonProos) {
     return (
         <span ref={scope} onClick={clickHandler}>
             <button
+                tabIndex={enableFocus ? 0 : -1}
                 className={`play hover:scale-[1.04] flex items-center justify-center rounded-full fill-black`}
                 style={{
                     height: `${height}px`,

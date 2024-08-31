@@ -5,6 +5,7 @@ import { Truck } from "./Truck";
 import { RootState } from "../../../store/store";
 import { userAPI } from "../../../api/userAPI";
 import { Item } from "../../../models/api";
+import { A11yFocus } from "../../focus/A11yFocus";
 
 export function TrucksOfPlaylist({}: {}) {
     const curentPlaylist = useSelector(
@@ -44,10 +45,13 @@ export function TrucksOfPlaylist({}: {}) {
                 uri: v.uri,
                 preview_url: v.preview_url,
                 album: {
-                    name: v.album?.name || '',
+                    name: v.album?.name || "",
                     images: [
                         {
-                            url: v.album && v.album.images ? v.album.images[0].url : '',
+                            url:
+                                v.album && v.album.images
+                                    ? v.album.images[0].url
+                                    : "",
                         },
                     ],
                 },
@@ -61,13 +65,26 @@ export function TrucksOfPlaylist({}: {}) {
     return (
         <div className="px-6 pb-8 fill-stone-400 text-stone-400 font-medium">
             <TopLabelTrucks />
-            <div>
-                {fetchedTracks.map((v, i) => {
-                    return (
-                        <Truck key={i + ":" + v.track.id} index={i} track={v} />
-                    );
-                })}
-            </div>
+            <A11yFocus
+                id="select-playlist"
+                onFocusListElement={(el) => {
+                    (
+                        el.querySelector(".select-button>ul>li:first-child button") as HTMLElement
+                    )?.focus();
+                }}
+                onlyVertical
+                className="scroll-mt-28"
+            >
+                <ul>
+                    {fetchedTracks.map((v, i) => {
+                        return (
+                            <li key={i + ":" + v.track.id}>
+                                <Truck index={i} track={v} />
+                            </li>
+                        );
+                    })}
+                </ul>
+            </A11yFocus>
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { Playlists } from "./Playlists";
 import { Playlist } from "./Playlist";
 import { FindReserch } from "./FindReserch";
 import { Itoken, IItemArtist } from "../../models/api";
+import { A11yFocus } from "../focus/A11yFocus";
 interface PlaylistsBlockProps {
     leftBarPlaylists: IItemArtist[];
     isError: boolean;
@@ -52,47 +53,50 @@ export function PlaylistsBlock({
                         </p>
                     ) : null
                 ) : (
-                    <>
-                        {leftBarPlaylists
-                            .filter((playlist) =>
-                                playlist.name
-                                    .toLowerCase()
-                                    .includes(serchPlaylistText.toLowerCase())
-                            )
-                            .filter((playlist) => {
-                                if (typesFilter.length > 0) {
-                                    return typesFilter.some((v) => {
+                    <A11yFocus className="rounded-md focus-visible:outline-none focus-visible:shadow-[inset_0_0_0_1px_#fff] pl-1 py-1 scroll-m-12">
+                        <ul>
+                            {leftBarPlaylists
+                                .filter((playlist) =>
+                                    playlist.name
+                                        .toLowerCase()
+                                        .includes(
+                                            serchPlaylistText.toLowerCase()
+                                        )
+                                )
+                                .filter((playlist) => {
+                                    if (typesFilter.length > 0) {
+                                        return typesFilter.some((v) => {
+                                            return (
+                                                v.toLowerCase() ===
+                                                playlist.type.toLowerCase()
+                                            );
+                                        });
+                                    } else {
+                                        return true;
+                                    }
+                                })
+                                .sort((playlistA, playlistB) => {
+                                    if (
+                                        playlistA.type === "artist" &&
+                                        playlistB.type === "artist"
+                                    ) {
                                         return (
-                                            v.toLowerCase() ===
-                                            playlist.type.toLowerCase()
+                                            playlistB.popularity -
+                                            playlistA.popularity
                                         );
-                                    });
-                                } else {
-                                    return true;
-                                }
-                            })
-                            .sort((playlistA, playlistB) => {
-                                if (
-                                    playlistA.type === "artist" &&
-                                    playlistB.type === "artist"
-                                ) {
+                                    } else {
+                                        return 0;
+                                    }
+                                })
+                                .map((playlist) => {
                                     return (
-                                        playlistB.popularity -
-                                        playlistA.popularity
+                                        <li key={playlist.id}>
+                                            <Playlist playlist={playlist} />
+                                        </li>
                                     );
-                                } else {
-                                    return 0;
-                                }
-                            })
-                            .map((playlist) => {
-                                return (
-                                    <Playlist
-                                        key={playlist.id}
-                                        playlist={playlist}
-                                    />
-                                );
-                            })}
-                    </>
+                                })}
+                        </ul>
+                    </A11yFocus>
                 )}
             </Playlists>
         </div>
