@@ -26,7 +26,7 @@ export function Truck({ index, track }: TruckProps) {
             : Math.floor((track.track.duration_ms / 1000) % 60));
     return (
         <div
-            className={`truckOfPlaylist hover:bg-[#fff1] focus-visible:bg-[#fff1] group a11yFocus scroll-mt-28 [&:has(>div>ul>li_button:focus-visible)]:-[inseshadowt_0_0_0_1px_#fff] [&:has(>div>ul>li_button:focus-visible)]:bg-[#fff1] rounded-md ${
+            className={`truckOfPlaylist hover:bg-[#fff1] focus-visible:bg-[#fff1] group a11yFocus scroll-mt-28 [&:has(>div>ul>li_button:focus-visible)]:shadow-[inset_0_0_0_1px_#fff] [&:has(>div>ul>li_button:focus-visible)]:bg-[#fff1] rounded-md ${
                 track.track.preview_url === null ? " opacity-50" : ""
             }`}
             aria-disabled={track.track.preview_url === null ? true : false}
