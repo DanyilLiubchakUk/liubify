@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { ITrackPlayedData } from "../models/api";
-import {
-    addCurentIndexOfTruck,
-    subtractCurentIndexOfTruck,
-} from "../store/tracksHistore/tracksHistoreSlice";
 import { RootState } from "../store/store";
+import {
+    addCurrentIndex,
+    subtractCurrentIndex,
+    switchPlayStation,
+} from "../store/playlistInspectorLibrary/playlistInspectorLibrarySlice";
 
 interface UsePlaybackControlProps {
     el: HTMLAudioElement | null;
@@ -13,11 +14,18 @@ interface UsePlaybackControlProps {
 
 export function UsePlaybackControl({ el, data }: UsePlaybackControlProps) {
     const dispatch = useDispatch();
-    const currentIndexTrack = useSelector(
-        (state: RootState) => state.tracksHistore.curentIndex
+    const currentHistoryIndex = useSelector(
+        (state: RootState) =>
+            state.playlistInspectorLibrary.currentAudioHistoryIndex
+    );
+    const currentIndex = useSelector(
+        (state: RootState) => state.playlistInspectorLibrary.currentAudioIndex
     );
     const historyOfTrucks = useSelector(
-        (state: RootState) => state.tracksHistore.allAudio
+        (state: RootState) => state.playlistInspectorLibrary.mainArray
+    );
+    const currentAudio = useSelector(
+        (state: RootState) => state.playlistInspectorLibrary.currentAudio
     );
 
     const changeData = () => {
@@ -36,14 +44,26 @@ export function UsePlaybackControl({ el, data }: UsePlaybackControlProps) {
     ][] = [
         [
             "previoustrack",
-            currentIndexTrack !== 0
-                ? () => dispatch(subtractCurentIndexOfTruck())
+            currentHistoryIndex !== 0
+                ? () => dispatch(subtractCurrentIndex())
                 : null,
         ],
         [
             "nexttrack",
-            historyOfTrucks.length - 1 !== currentIndexTrack
-                ? () => dispatch(addCurentIndexOfTruck())
+            historyOfTrucks.length - 1 !== currentIndex
+                ? () => dispatch(addCurrentIndex())
+                : null,
+        ],
+        [
+            "pause",
+            currentAudio.id.length > 0
+                ? () => dispatch(switchPlayStation())
+                : null,
+        ],
+        [
+            "play",
+            currentAudio.id.length > 0
+                ? () => dispatch(switchPlayStation())
                 : null,
         ],
     ];

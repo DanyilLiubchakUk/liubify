@@ -11,7 +11,7 @@ interface TopArticleProps {
 
 export function TopArticle({ scroll, thirdCollapce }: TopArticleProps) {
     const curentAudio = useSelector(
-        (state: RootState) => state.tracksHistore.curentAudio
+        (state: RootState) => state.playlistInspectorLibrary.currentAudio
     );
 
     return (

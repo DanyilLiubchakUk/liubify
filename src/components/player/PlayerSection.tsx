@@ -50,7 +50,11 @@ export function PlayerSection({
                             </ClickAnimaiton>
                         </li>
                         <li>
-                            <PlayButton isGray height="32" />
+                            <PlayButton
+                                onClick={() => controllTrack.pause()}
+                                isGray
+                                height="32"
+                            />
                         </li>
                         <li>
                             <ClickAnimaiton>

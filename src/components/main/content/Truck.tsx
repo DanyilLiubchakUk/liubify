@@ -3,9 +3,11 @@ import { Icon } from "../../icons/Icon";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { Item } from "../../../models/api";
-import { addToTrucksHistory } from "../../../store/tracksHistore/tracksHistoreSlice";
 import { ClickAnimaiton } from "../../icons/ClickAnimaiton";
 import { A11yFocus } from "../../focus/A11yFocus";
+import { UsePlayInspector } from "../../../hooks/UsePlayInspector";
+import { setPlayedPlaylist } from "../../../store/playlistInspectorLibrary/playlistInspectorLibrarySlice";
+import { UseRandomId } from "../../../hooks/UseRandomId";
 
 interface TruckProps {
     index: number;
@@ -13,11 +15,14 @@ interface TruckProps {
 }
 
 export function Truck({ index, track }: TruckProps) {
-    const dispatch = useDispatch();
-
     const secondTabSize =
         window.innerWidth -
         (useSelector((state: RootState) => state.tabs.secondTabSize) || 0);
+
+    const { addToTypeData } = UsePlayInspector();
+    const dispatch = useDispatch();
+    const id = UseRandomId();
+
     const timeOfTrack =
         Math.floor((track.track.duration_ms / 1000 / 60) << 0) +
         ":" +
@@ -78,8 +83,8 @@ export function Truck({ index, track }: TruckProps) {
                                         track.track.name &&
                                         track.track.id
                                     ) {
-                                        dispatch(
-                                            addToTrucksHistory({
+                                        addToTypeData({
+                                            data: {
                                                 url: track.track.preview_url,
                                                 title: track.track.name,
                                                 id: track.track.id,
@@ -96,8 +101,11 @@ export function Truck({ index, track }: TruckProps) {
                                                 albumName:
                                                     track.track.album?.name ||
                                                     "",
-                                            })
-                                        );
+                                            },
+                                            type: "preview",
+                                            id: id,
+                                        });
+                                        dispatch(setPlayedPlaylist({}));
                                     }
                                 }}
                             >

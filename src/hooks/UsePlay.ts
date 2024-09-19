@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-    addCurentIndexOfTruck,
-    subtractCurentIndexOfTruck,
-} from "../store/tracksHistore/tracksHistoreSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { ITrackPlayedData } from "../models/api";
 import { UsePlaybackControl } from "./UsePlaybackControl";
+import {
+    addCurrentIndex,
+    subtractCurrentIndex,
+    switchPlayStation,
+} from "../store/playlistInspectorLibrary/playlistInspectorLibrarySlice";
+import { RootState } from "../store/store";
 
 interface UsePlayProps {
     el: HTMLAudioElement | null;
@@ -19,7 +21,9 @@ export function UsePlay({ el, data }: UsePlayProps) {
     const [timeOFWholeTrack, setTimeOFWholeTrack] = useState(0);
 
     const { controls } = UsePlaybackControl({ data, el });
-
+    const playState = useSelector(
+        (state: RootState) => state.playlistInspectorLibrary.playState
+    );
     useEffect(() => {
         if (el) {
             controls.changeData();
@@ -33,6 +37,15 @@ export function UsePlay({ el, data }: UsePlayProps) {
             };
         }
     }, [data]);
+    useEffect(() => {
+        if (el && data.url) {
+            if (playState) {
+                el?.play();
+            } else {
+                el?.pause();
+            }
+        }
+    }, [playState]);
 
     const setCurrentTimeOfAudio = (time: number) => {
         if (el) {
@@ -45,18 +58,14 @@ export function UsePlay({ el, data }: UsePlayProps) {
 
     const pause = () => {
         if (el && data.url) {
-            if (el.paused) {
-                el.play();
-            } else {
-                el.pause();
-            }
+            dispatch(switchPlayStation());
         }
     };
     const back = () => {
-        dispatch(subtractCurentIndexOfTruck());
+        dispatch(subtractCurrentIndex());
     };
     const forward = () => {
-        dispatch(addCurentIndexOfTruck());
+        dispatch(addCurrentIndex());
     };
     if (data) {
         return {

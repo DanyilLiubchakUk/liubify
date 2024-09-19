@@ -11,7 +11,7 @@ interface MainContentProps {}
 
 export function MainContent({}: MainContentProps) {
     const curentAudio = useSelector(
-        (state: RootState) => state.tracksHistore.curentAudio
+        (state: RootState) => state.playlistInspectorLibrary.currentAudio
     );
     const [hoverState, setHoverState] = useState(false);
 
@@ -48,8 +48,8 @@ export function MainContent({}: MainContentProps) {
                 <div>
                     <A11yFocus>
                         <ul>
-                            {[null, null, null].map((v) => (
-                                <li>
+                            {[null, null, null].map((v, i) => (
+                                <li key={i}>
                                     <div
                                         className="flex items-center gap-2 p-2 group bg-neutral-800 hover:bg-neutral-700 rounded-md [&:has(>div>div>button:focus-visible)]:bg-neutral-700 [&:has(>div>div>button:focus-visible)]:shadow-[inset_0_0_0_1px_#fff]"
                                         onMouseEnter={() => setHoverState(true)}

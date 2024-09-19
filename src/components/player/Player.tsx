@@ -1,7 +1,7 @@
 import ReactAudioPlayer from "react-audio-player";
 import { PlayerSection } from "./PlayerSection";
 import { RootState } from "../../store/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
 import { AddPlaylistIcon } from "../icons/AddPlaylistIcon";
 import { Icon } from "../icons/Icon";
@@ -9,6 +9,7 @@ import { TimeLine } from "./TimeLine";
 import { ScrollText } from "../ScrollText";
 import { UsePlay } from "../../hooks/UsePlay";
 import { ClickAnimaiton } from "../icons/ClickAnimaiton";
+import { addToAudioHistory } from "../../store/playlistInspectorLibrary/playlistInspectorLibrarySlice";
 interface PlayerProps {
     thirdCollapce: () => void;
     thirdExpend: () => void;
@@ -16,12 +17,14 @@ interface PlayerProps {
 
 export function Player({ thirdExpend, thirdCollapce }: PlayerProps) {
     const currentTrack = useSelector(
-        (state: RootState) => state.tracksHistore.curentAudio
+        (state: RootState) => state.playlistInspectorLibrary.currentAudio
     );
 
     const audioEl = useRef<HTMLAudioElement | null>(null);
 
     const [showThirdTab, setShowThirdTab] = useState(true);
+
+    const dispatch = useDispatch();
 
     const { src, currentTime, timeOFWholeTrack, volume, controllTrack } =
         UsePlay({
@@ -33,9 +36,9 @@ export function Player({ thirdExpend, thirdCollapce }: PlayerProps) {
         <div className="h-[72px] flex justify-center items-center fill-stone-400 text-stone-400">
             <div className="hidden">
                 <ReactAudioPlayer
+                    onEnded={() => dispatch(addToAudioHistory())}
                     src={src}
                     autoPlay
-                    loop
                     volume={volume.val / 100}
                     ref={(el) => {
                         if (el) {

@@ -4,14 +4,23 @@ import { TopLabelTrucks } from "./TopLabelTrucks";
 import { Truck } from "./Truck";
 import { RootState } from "../../../store/store";
 import { userAPI } from "../../../api/userAPI";
-import { Item } from "../../../models/api";
+import { Item, ITrackPlayedData } from "../../../models/api";
 import { A11yFocus } from "../../focus/A11yFocus";
+import { useEffect } from "react";
+import { UseRandomId } from "../../../hooks/UseRandomId";
+import { UsePlayInspector } from "../../../hooks/UsePlayInspector";
 
 export function TrucksOfPlaylist({}: {}) {
     const curentPlaylist = useSelector(
         (state: RootState) => state.playlistHistory.curentPlaylist
     );
     const token = useSelector((state: RootState) => state.token.value);
+    const { ["mainWindow-" + curentPlaylist.id]: mainWindowButtonState } =
+        useSelector(
+            (state: RootState) => state.playlistInspectorLibrary.playButtons
+        );
+
+    const { addToTypeData } = UsePlayInspector();
 
     let fetchedTracks: Item[] = [];
     const isPlaylist = curentPlaylist.type === "playlist";
@@ -62,6 +71,37 @@ export function TrucksOfPlaylist({}: {}) {
         }));
     }
 
+    const id = UseRandomId(curentPlaylist.id);
+    useEffect(() => {
+        if (mainWindowButtonState) {
+            addToTypeData({
+                data: fetchedTracks
+                    .map((track) => {
+                        if (track.track.preview_url) {
+                            return {
+                                url: track.track.preview_url,
+                                title: track.track.name,
+                                id: track.track.id,
+                                img: track.track.album?.images?.[0]?.url || "",
+                                artist:
+                                    track.added_by?.display_name ||
+                                    track.track?.artists?.[0].name ||
+                                    "Unknown Artist",
+                                albumName: track.track.album?.name || "",
+                            };
+                        }
+                        return undefined;
+                    })
+                    .filter(
+                        (track): track is ITrackPlayedData =>
+                            track !== undefined
+                    ),
+                type: "playlist",
+                id,
+            });
+        }
+    }, [mainWindowButtonState, fetchedTracks]);
+
     return (
         <div className="px-6 pb-8 fill-stone-400 text-stone-400 font-medium">
             <TopLabelTrucks />
@@ -69,7 +109,9 @@ export function TrucksOfPlaylist({}: {}) {
                 id="select-playlist"
                 onFocusListElement={(el) => {
                     (
-                        el.querySelector(".select-button>ul>li:first-child button") as HTMLElement
+                        el.querySelector(
+                            ".select-button>ul>li:first-child button"
+                        ) as HTMLElement
                     )?.focus();
                 }}
                 onlyVertical
