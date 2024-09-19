@@ -146,34 +146,36 @@ const playlistInspectorLibrarySlice = createSlice({
             }
         },
         addCurrentIndex: (state) => {
-            if (
-                state.currentAudioHistoryIndex ===
-                state.historyArray.length - 1
-            ) {
+            if (state.mainArray.length > 0) {
                 if (
-                    state.mainArray.length !== 0 &&
-                    state.mainArray.length > 1 &&
-                    state.currentAudioIndex < state.mainArray.length - 1
+                    state.currentAudioHistoryIndex ===
+                    state.historyArray.length - 1
                 ) {
                     if (
-                        state.currentAudio.id ===
-                        state.mainArray[state.currentAudioIndex + 1].id
+                        state.mainArray.length !== 0 &&
+                        state.mainArray.length > 1 &&
+                        state.currentAudioIndex < state.mainArray.length - 1
                     ) {
+                        if (
+                            state.currentAudio.id ===
+                            state.mainArray[state.currentAudioIndex + 1].id
+                        ) {
+                            state.currentAudioIndex += 1;
+                        }
                         state.currentAudioIndex += 1;
+                        state.currentAudioHistoryIndex += 1;
+                        state.historyArray[state.currentAudioHistoryIndex] =
+                            state.mainArray[state.currentAudioIndex];
+                        state.currentAudio =
+                            state.mainArray[state.currentAudioIndex];
+                        state.playState = true;
                     }
-                    state.currentAudioIndex += 1;
+                } else {
                     state.currentAudioHistoryIndex += 1;
-                    state.historyArray[state.currentAudioHistoryIndex] =
-                        state.mainArray[state.currentAudioIndex];
                     state.currentAudio =
-                        state.mainArray[state.currentAudioIndex];
+                        state.historyArray[state.currentAudioHistoryIndex];
                     state.playState = true;
                 }
-            } else {
-                state.currentAudioHistoryIndex += 1;
-                state.currentAudio =
-                    state.historyArray[state.currentAudioHistoryIndex];
-                state.playState = true;
             }
         },
         subtractCurrentIndex: (state) => {
