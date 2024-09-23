@@ -9,7 +9,7 @@ import { TimeLine } from "./TimeLine";
 import { ScrollText } from "../ScrollText";
 import { UsePlay } from "../../hooks/UsePlay";
 import { ClickAnimaiton } from "../icons/ClickAnimaiton";
-import { addToAudioHistory } from "../../store/playlistInspectorLibrary/playlistInspectorLibrarySlice";
+import { addCurrentIndex } from "../../store/playlistInspectorLibrary/playlistInspectorLibrarySlice";
 interface PlayerProps {
     thirdCollapce: () => void;
     thirdExpend: () => void;
@@ -36,7 +36,7 @@ export function Player({ thirdExpend, thirdCollapce }: PlayerProps) {
         <div className="h-[72px] flex justify-center items-center fill-stone-400 text-stone-400">
             <div className="hidden">
                 <ReactAudioPlayer
-                    onEnded={() => dispatch(addToAudioHistory())}
+                    onEnded={() => dispatch(addCurrentIndex())}
                     src={src}
                     autoPlay
                     volume={volume.val / 100}

@@ -125,26 +125,6 @@ const playlistInspectorLibrarySlice = createSlice({
                 );
             }
         },
-        addToAudioHistory: (state) => {
-            if (
-                state.mainArray.length !== 0 &&
-                state.mainArray.length > 1 &&
-                state.currentAudioIndex < state.mainArray.length - 1
-            ) {
-                if (
-                    state.currentAudio.id ===
-                    state.mainArray[state.currentAudioIndex + 1].id
-                ) {
-                    state.currentAudioIndex += 1;
-                }
-                state.currentAudioIndex += 1;
-                state.currentAudioHistoryIndex += 1;
-                state.historyArray[state.currentAudioIndex] =
-                    state.mainArray[state.currentAudioIndex];
-                state.currentAudio = state.mainArray[state.currentAudioIndex];
-                state.playState = true;
-            }
-        },
         addCurrentIndex: (state) => {
             if (state.mainArray.length > 0) {
                 if (
@@ -152,7 +132,6 @@ const playlistInspectorLibrarySlice = createSlice({
                     state.historyArray.length - 1
                 ) {
                     if (
-                        state.mainArray.length !== 0 &&
                         state.mainArray.length > 1 &&
                         state.currentAudioIndex < state.mainArray.length - 1
                     ) {
@@ -212,7 +191,6 @@ export default playlistInspectorLibrarySlice.reducer; // reducer - all slice log
 export const {
     addToTypeDataSlot,
     changeMainArray,
-    addToAudioHistory,
     addCurrentIndex,
     subtractCurrentIndex,
     setPlayedPlaylist,
