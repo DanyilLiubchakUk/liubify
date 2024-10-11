@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/liubify/static/css/main.9e3b299d.css",
-    "main.js": "/liubify/static/js/main.8cc317cd.js",
+    "main.js": "/liubify/static/js/main.41175f58.js",
     "index.html": "/liubify/index.html",
     "main.9e3b299d.css.map": "/liubify/static/css/main.9e3b299d.css.map",
-    "main.8cc317cd.js.map": "/liubify/static/js/main.8cc317cd.js.map"
+    "main.41175f58.js.map": "/liubify/static/js/main.41175f58.js.map"
   },
   "entrypoints": [
     "static/css/main.9e3b299d.css",
-    "static/js/main.8cc317cd.js"
+    "static/js/main.41175f58.js"
   ]
 }
