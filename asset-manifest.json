@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/liubify/static/css/main.9e3b299d.css",
+    "main.js": "/liubify/static/js/main.c0b6748d.js",
+    "index.html": "/liubify/index.html",
+    "main.9e3b299d.css.map": "/liubify/static/css/main.9e3b299d.css.map",
+    "main.c0b6748d.js.map": "/liubify/static/js/main.c0b6748d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9e3b299d.css",
+    "static/js/main.c0b6748d.js"
+  ]
+}
