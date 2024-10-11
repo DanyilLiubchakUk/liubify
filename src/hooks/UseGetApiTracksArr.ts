@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Item, Itoken, Tracks } from "../models/api";
+import { Itoken, Tracks } from "../models/api";
 
 interface UseGetApiTrucksArrProps {
     funcApi: any;
@@ -17,7 +17,7 @@ export function UseGetApiTracksArr({
     skip,
 }: UseGetApiTrucksArrProps) {
     const [countOfOffsets, setCountOfOffsets] = useState(0);
-    const [arrRequest, setArrRequest] = useState<Item[]>([]);
+    const [arrRequest, setArrRequest] = useState([]);
 
     const { data }: { data: Tracks } = funcApi(
         {
@@ -35,7 +35,7 @@ export function UseGetApiTracksArr({
     }, [id]);
     useEffect(() => {
         if (data) {
-            setArrRequest((state) => [...state, ...data.items]);
+            setArrRequest((state) => [...state, ...data.items] as typeof state);
 
             if (data.items.length !== data.total) {
                 setCountOfOffsets(

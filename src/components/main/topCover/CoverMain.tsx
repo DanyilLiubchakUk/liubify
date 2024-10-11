@@ -1,7 +1,6 @@
 import { MainBackground } from "./MainBackground";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
-import { FillTextByFontSize } from "../FiillTextTitle";
 import { IAllPlaylists, Itoken } from "../../../models/api";
 import { userAPI } from "../../../api/userAPI";
 import { PlaylistCover } from "../typePlaylist/playlist/PlaylistCover";
@@ -53,6 +52,14 @@ export function CoverMain({ colorOfDataLog, url }: CoverMainProps) {
                     url={url}
                     text={text}
                     curentPlaylist={curentPlaylist}
+                    secondTabSize={secondTabSize}
+                />
+            ) : curentPlaylist.type === "album" ? (
+                <PlaylistCover
+                    url={url}
+                    text={text}
+                    curentPlaylist={curentPlaylist}
+                    data={data}
                     secondTabSize={secondTabSize}
                 />
             ) : null}

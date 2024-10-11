@@ -3,10 +3,13 @@ import {
     IAllPlaylists,
     IArtistsTopTracks,
     IOtherUser,
+    ISearch,
     ITracks,
+    ITracksOfAlbum,
     IUser,
     IUserTopsArtists,
     Itoken,
+    RecentyPlayedTracksData,
     Tfolder,
 } from "../models/api";
 
@@ -145,6 +148,77 @@ export const userAPI = createApi({
         >({
             query: ({ token, id }: { token: Itoken; id: string }) => ({
                 url: `v1/artists/${id}/top-tracks`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+        fetchAlbumTracksByID: build.query<
+            ITracksOfAlbum,
+            {
+                token: Itoken;
+                id: string;
+                countOfOffsets?: number;
+                itemsPerRequest?: number;
+            }
+        >({
+            query: ({
+                token,
+                id,
+                countOfOffsets = 0,
+                itemsPerRequest = 15,
+            }: {
+                token: Itoken;
+                id: string;
+                countOfOffsets?: number;
+                itemsPerRequest?: number;
+            }) => ({
+                url: `v1/albums/${id}/tracks`,
+                params: {
+                    offset: countOfOffsets,
+                    limit: itemsPerRequest,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+        fetchRecentyPlayedTracks: build.query<RecentyPlayedTracksData, Itoken>({
+            query: (token: Itoken) => ({
+                url: "v1/me/player/recently-played",
+                params: {
+                    limit: 50,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }),
+        }),
+        fetchSearch: build.query<
+            ISearch,
+            {
+                token: Itoken;
+                types: string[];
+                query: string;
+            }
+        >({
+            query: ({
+                token,
+                types,
+                query,
+            }: {
+                token: Itoken;
+                types: string[];
+                query: string;
+            }) => ({
+                url: `v1/search`,
+                params: {
+                    type: types.join(",").toLocaleLowerCase(),
+                    q: query,
+                },
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",

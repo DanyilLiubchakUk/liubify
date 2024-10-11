@@ -6,7 +6,6 @@ import {
     addTypeFilter,
     removeTypeFilter,
 } from "../../store/leftTab/searchPlaylistsSlice";
-import { IItemArtist } from "../../models/api";
 import { ClickAnimaiton } from "../icons/ClickAnimaiton";
 import { useRef } from "react";
 import { A11yFocus } from "../focus/A11yFocus";

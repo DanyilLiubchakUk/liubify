@@ -91,6 +91,8 @@ export function UserDataLogIn({ colorOfDataLog }: UserDataLogInProps) {
                     className={` ${
                         allPlaylistsHistory.length - 1 === curentIndexHistory
                             ? "opacity-50"
+                            : allPlaylistsHistory.length === 0
+                            ? "opacity-50"
                             : ""
                     } transition-opacity duration-500`}
                 >
@@ -130,7 +132,10 @@ export function UserDataLogIn({ colorOfDataLog }: UserDataLogInProps) {
                         <div
                             className="w-6 h-6 rounded-full bg-cover bg-center"
                             style={{
-                                backgroundImage: `url(${data?.images[0].url})`,
+                                backgroundImage: `url(${
+                                    data?.images?.[0]?.url ||
+                                    "https://st3.depositphotos.com/23594922/31822/v/450/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg"
+                                })`,
                             }}
                         ></div>
                     </div>

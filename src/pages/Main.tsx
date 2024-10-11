@@ -5,12 +5,10 @@ import {
     ImperativePanelHandle,
 } from "react-resizable-panels";
 import { LeftBar } from "../components/leftBar/LeftBar";
-import { MainPanel } from "../components/main/MainPanel";
 import { RightBar } from "../components/rightBar/RightBar";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSizeOfTabs } from "../store/tabs/tabsSlice";
-import { IAllPlaylists } from "../models/api";
 import { RootState } from "../store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setUrl } from "../store/leftTab/searchPlaylistsSlice";
@@ -18,7 +16,10 @@ import { UseTurnPlaylistByUrl } from "../hooks/UseTurnPlaylistByUrl";
 import { RedirectURI } from "../api/API_DATA";
 import { Player } from "../components/player/Player";
 
-export function Main() {
+interface MainProps {
+    children: React.ReactNode;
+}
+export function Main({ children }: MainProps) {
     const [showThirdTab, setShowThirdTab] = useState(true);
     const [showTemporaryThirdTab, setShowTemporaryThirdTab] = useState(true);
     const dispatch = useDispatch();
@@ -28,9 +29,6 @@ export function Main() {
 
     const refParent = useRef<HTMLDivElement>(null);
 
-    const curentPlaylist: IAllPlaylists = useSelector(
-        (state: RootState) => state.playlistHistory.curentPlaylist
-    );
     const curentIndex: number = useSelector(
         (state: RootState) => state.playlistHistory.curentIndex
     );
@@ -180,10 +178,7 @@ export function Main() {
                     minSize={30}
                     ref={ref2}
                 >
-                    {curentPlaylist.name !==
-                    "___Null___89fd89sj333434fdfa$288#hh48LLfeee+-3e3ejd85" ? (
-                        <MainPanel />
-                    ) : null}
+                    {children}
                 </Panel>
                 <PanelResizeHandle
                     className={`w-[2px] transition-colors duration-700 my-4 rounded-xl relative

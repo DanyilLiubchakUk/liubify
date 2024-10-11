@@ -49,7 +49,11 @@ export function Truck({ index, track }: TruckProps) {
             <ContextMenu.Trigger>
                 <div
                     className={`truckOfPlaylist hover:bg-[#fff1] focus-visible:bg-[#fff1] group a11yFocus scroll-mt-28 [&:has(>div>ul>li_button:focus-visible)]:shadow-[inset_0_0_0_1px_#fff] [&:has(>div>ul>li_button:focus-visible)]:bg-[#fff1] rounded-md ${
-                        track.track.preview_url === null ? " opacity-50" : ""
+                        track.track.preview_url === null
+                            ? " opacity-50"
+                            : track.track.preview_url === undefined
+                            ? " opacity-50"
+                            : ""
                     } ${isContextMenuOpen ? "bg-[#fff1]" : ""}`}
                     aria-disabled={
                         track.track.preview_url === null ? true : false

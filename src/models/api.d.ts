@@ -222,8 +222,25 @@ export interface VideoThumbnail {
     url: null;
 }
 
-// Artists top tracks(they got from artist id)
+// Tracks of the album
+export interface ITracksOfAlbum {
+    artists: Artist[];
+    available_markets: string[];
+    disc_number: number;
+    duration_ms: number;
+    explicit: boolean;
+    external_urls: ExternalUrls;
+    href: string;
+    id: string;
+    name: string;
+    preview_url: string;
+    track_number: number;
+    type: string;
+    uri: string;
+    is_local: boolean;
+}
 
+// Artists top tracks(they got from artist id)
 export interface IArtistsTopTracks {
     album?: Album;
     artists: Artist[];
@@ -279,5 +296,159 @@ export interface ITrackPlayedData {
     id: string;
     img: string;
     artist: string;
-    albumName: string
+    albumName: string;
+}
+
+// RecentyPlayedTracks
+export interface RecentyPlayedTracksData {
+    items: RecentyPlayedTracksDataItem[];
+    next: string;
+    cursors: Cursors;
+    limit: number;
+    href: string;
+}
+
+export interface Cursors {
+    after: string;
+    before: string;
+}
+
+export interface RecentyPlayedTracksDataItem {
+    track: Track;
+    played_at: Date;
+    context: Context | null;
+}
+
+export interface Context {
+    type: string;
+    href: string;
+    external_urls: string;
+    uri: string;
+}
+export type Date = string;
+
+// types of search
+export interface ISearch {
+    albums?: {
+        href: string;
+        limit: number;
+        next: string | null;
+        offset: number;
+        previous: string | null;
+        total: number;
+        items: AlbumObjectSearch[];
+    };
+    artists?: {
+        href: string;
+        limit: number;
+        next: string | null;
+        offset: number;
+        previous: string | null;
+        total: number;
+        items: ArtistObjectSearch[];
+    };
+    playlists?: {
+        href: string;
+        limit: number;
+        next: string | null;
+        offset: number;
+        previous: string | null;
+        total: number;
+        items: PlaylistObjectSearch[];
+    };
+}
+
+export interface ArtistObjectSearch {
+    external_urls: {
+        spotify: string;
+    };
+    followers: {
+        href: string | null;
+        total: number;
+    };
+    genres: string[];
+    href: string;
+    id: string;
+    images: {
+        url: string | undefined;
+        height: number | null;
+        width: number | null;
+    }[];
+    name: string;
+    popularity: number;
+    type: string;
+    uri: string;
+}
+
+export interface AlbumObjectSearch {
+    album_type: string;
+    total_tracks: number;
+    available_markets: string[];
+    external_urls: {
+        spotify: string;
+    };
+    href: string;
+    id: string;
+    images: {
+        url: string | undefined;
+        height: number | null;
+        width: number | null;
+    }[];
+    name: string;
+    release_date: string;
+    release_date_precision: string;
+    restrictions?: {
+        reason: string;
+    };
+    type: string;
+    uri: string;
+    artists: {
+        external_urls: {
+            spotify: string;
+        };
+        href: string;
+        id: string;
+        name: string;
+        type: string;
+        uri: string;
+    }[];
+}
+
+export interface PlaylistObjectSearch {
+    collaborative: boolean;
+    description: string | null;
+    external_urls: {
+        spotify: string;
+    };
+    href: string;
+    id: string;
+    images: {
+        url: string | undefined;
+        height: number | null;
+        width: number | null;
+    }[];
+    name: string;
+    owner: {
+        external_urls: {
+            spotify: string;
+        };
+        followers: {
+            href: string | null;
+            total: number;
+        };
+        href: string;
+        id: string;
+        type: string;
+        uri: string;
+        display_name: string | null;
+        public: boolean | null;
+    };
+    public: boolean | null;
+    snapshot_id: string;
+    tracks: {
+        href: string;
+        total: number;
+    };
+    type: string;
+    uri: string;
 }
