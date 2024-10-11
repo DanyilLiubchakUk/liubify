@@ -17,7 +17,11 @@ export function UseAddToCurentIndex() {
     return () => {
         if (curentIndex < allPlaylists.length - 1) {
             navigate(
-                `/${allPlaylists[curentIndex + 1].type}/${
+                `${
+                    window.location.pathname.startsWith("/liubify")
+                        ? "/liubify"
+                        : ""
+                }/${allPlaylists[curentIndex + 1].type}/${
                     allPlaylists[curentIndex + 1].id
                 }`
             );

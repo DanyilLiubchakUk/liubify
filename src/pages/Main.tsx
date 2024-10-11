@@ -13,8 +13,9 @@ import { RootState } from "../store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setUrl } from "../store/leftTab/searchPlaylistsSlice";
 import { UseTurnPlaylistByUrl } from "../hooks/UseTurnPlaylistByUrl";
-import { RedirectURI } from "../api/API_DATA";
 import { Player } from "../components/player/Player";
+import { setToken } from "../store/token/tokenSlice";
+import { getTokenFromHash } from "../api/getAPI";
 
 interface MainProps {
     children: React.ReactNode;
@@ -29,39 +30,38 @@ export function Main({ children }: MainProps) {
 
     const refParent = useRef<HTMLDivElement>(null);
 
-    const curentIndex: number = useSelector(
-        (state: RootState) => state.playlistHistory.curentIndex
-    );
-    const allPlaylists = useSelector(
-        (state: RootState) => state.playlistHistory.allPlaylists
-    );
     const token = useSelector((state: RootState) => state.token.value);
     const location = useLocation();
     const turnPlaylistByUrl = UseTurnPlaylistByUrl(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (allPlaylists[curentIndex]?.id !== location.pathname.split("/")[2]) {
+        if (!window.location.hash.includes("access_token=")) {
+            if (token === null) {
+                localStorage.setItem("redirectUrl", window.location.pathname);
+            }
+        } else {
+            dispatch(setToken(getTokenFromHash()));
+        }
+    }, [window.location.href]);
+
+    useEffect(() => {
+        if (
+            window.location.pathname.startsWith("/liubify")
+                ? location.pathname.split("/")[3]
+                : location.pathname.split("/")[2]
+        ) {
             dispatch(setUrl(location.pathname));
 
             turnPlaylistByUrl();
-            if (location.pathname !== "/") {
-            }
         }
     }, [location.pathname]);
 
     useEffect(() => {
-        if (!window.location.hash.includes("access_token=")) {
-            if (token === null) {
-                localStorage.setItem("redirectUrl", window.location.href);
-            }
-        }
-    }, []);
-    useEffect(() => {
         if (token && !window.location.hash.includes("access_token=")) {
             const redirectUrl = localStorage.getItem("redirectUrl");
             if (redirectUrl) {
-                navigate(redirectUrl.split(RedirectURI).join(""));
+                navigate(redirectUrl);
             }
         }
     }, [token, window.location.hash]);

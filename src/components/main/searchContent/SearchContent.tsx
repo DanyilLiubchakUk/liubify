@@ -14,13 +14,16 @@ export function SearchContent() {
     const alltypes = ["All", "Playlist", "Artist", "Album"];
 
     const location = useLocation().pathname.split("/");
+    const startNum = window.location.pathname.startsWith("/liubify") ? 1 : 0;
 
     const requestLink =
-        location.length > 2 ? location[2].replace(/%20/g, " ") : "";
+        location.length > startNum + 2
+            ? location[startNum + 2].replace(/%20/g, " ")
+            : "";
     const typeFilterLink =
-        location.length > 3
-            ? location[3].length > 0
-                ? [UseCapitalLetter(location[3])]
+        location.length > startNum + 3
+            ? location[startNum + 3].length > 0
+                ? [UseCapitalLetter(location[startNum + 3])]
                 : alltypes.slice(1)
             : alltypes.slice(1);
 
@@ -59,7 +62,13 @@ export function SearchContent() {
             } else {
                 filterTypes = "";
             }
-            navigate(`/search${request}${filterTypes}`);
+            navigate(
+                `${
+                    window.location.pathname.startsWith("/liubify")
+                        ? "/liubify"
+                        : ""
+                }/search${request}${filterTypes}`
+            );
         }, 400),
         []
     );
@@ -106,7 +115,15 @@ export function SearchContent() {
                                     } else {
                                         filterTypes = "";
                                     }
-                                    navigate(`/search${request}${filterTypes}`);
+                                    navigate(
+                                        `${
+                                            window.location.pathname.startsWith(
+                                                "/liubify"
+                                            )
+                                                ? "/liubify"
+                                                : ""
+                                        }/search${request}${filterTypes}`
+                                    );
                                 }}
                             >
                                 {type}

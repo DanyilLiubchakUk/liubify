@@ -14,7 +14,9 @@ export function Playlist({ playlist }: PlaylistProps) {
 
     return (
         <Link
-            to={`/${playlist.type}/${playlist.id}`}
+            to={`${
+                window.location.pathname.startsWith("/liubify") ? "/liubify" : ""
+            }/${playlist.type}/${playlist.id}`}
             className="focus-visible:outline-none [&:focus-visible>div]:shadow-[inset_0_0_0_1px_#fff] [&:focus-visible>div]:bg-stone-800"
         >
             <div className="playlist grid grid-cols-12 items-center gap-3 hover:bg-stone-800 transition-colors px-2 py-1.5 mr-1 rounded-lg">

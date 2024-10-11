@@ -47,9 +47,15 @@ export function HomeBlock({
                     {arrToShow.map((card) => (
                         <li key={card.played_at}>
                             <Link
-                                to={`/${
-                                    card.track?.album?.uri?.split(":")[1]
-                                }/${card.track?.album?.uri?.split(":")[2]}`}
+                                to={`${
+                                    window.location.pathname.startsWith(
+                                        "/liubify"
+                                    )
+                                        ? "/liubify"
+                                        : ""
+                                }/${card.track?.album?.uri?.split(":")[1]}/${
+                                    card.track?.album?.uri?.split(":")[2]
+                                }`}
                                 className="block h-full p-4 pb-8 rounded-md cursor-pointer bg-gradient-to-b from-transparent to-neutral-800 hover:bg-neutral-800 focus-visible:bg-neutral-800 transition-colors duration-200"
                             >
                                 <img

@@ -9,9 +9,7 @@ export function makeAPIForToken(
     window.location.href = `${apiURL}?client_id=${ClientID}&redirect_uri=${RedirectURI}&scope=${scope.join(
         " "
     )}&response_type=token&show_daialog=true`;
-    alert(`${apiURL}?client_id=${ClientID}&redirect_uri=${RedirectURI}&scope=${scope.join(
-        " "
-    )}&response_type=token&show_daialog=true`)
+    
 }
 export function getTokenFromHash(): Itoken {
     const hash = window.location.hash;

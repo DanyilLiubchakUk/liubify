@@ -20,8 +20,8 @@ export function UseTurnPlaylistByUrl(isNew: boolean = true) {
     const dispatch = useDispatch();
     const addToCurentIndex = UseAddToCurentIndex();
 
-    const typeOfLink = url.split("/")[1];
-    const idOfLink = url.split("/")[2];
+    const typeOfLink = url.split("/")[window.location.pathname.startsWith("/liubify") ? 2 : 1];
+    const idOfLink = url.split("/")[window.location.pathname.startsWith("/liubify") ? 3 : 2];
 
     const { data, isLoading, isError } = userAPI.useFetchFolderByIDQuery(
         { token, type: typeOfLink, id: idOfLink },

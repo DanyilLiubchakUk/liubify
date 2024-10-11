@@ -17,7 +17,11 @@ export function UseSubtractOfCurentIndex() {
     return () => {
         if (curentIndex > 0) {
             navigate(
-                `/${allPlaylists[curentIndex - 1].type}/${
+                `${
+                    window.location.pathname.startsWith("/liubify")
+                        ? "/liubify"
+                        : ""
+                }/${allPlaylists[curentIndex - 1].type}/${
                     allPlaylists[curentIndex - 1].id
                 }`
             );

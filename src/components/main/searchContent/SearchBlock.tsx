@@ -60,7 +60,13 @@ export function SearchBlock({
                             ? arrToShow.map((card) => (
                                   <li key={card.href}>
                                       <Link
-                                          to={`/${card.uri?.split(":")[1]}/${
+                                          to={`${
+                                              window.location.pathname.startsWith(
+                                                  "/liubify"
+                                              )
+                                                  ? "/liubify"
+                                                  : ""
+                                          }/${card.uri?.split(":")[1]}/${
                                               card.uri?.split(":")[2]
                                           }`}
                                           className="block h-full p-4 pb-8 rounded-md cursor-pointer bg-gradient-to-b from-transparent to-neutral-800 hover:bg-neutral-800 focus-visible:bg-neutral-800 transition-colors duration-200"

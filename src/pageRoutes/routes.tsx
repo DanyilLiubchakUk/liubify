@@ -4,9 +4,12 @@ import { MainPanel } from "../components/main/MainPanel";
 import { Home } from "../pages/Home";
 import { Search } from "../pages/Search";
 
+const isLiubify = window.location.pathname.startsWith("/liubify");
+const basename = isLiubify ? "/liubify" : "";
+
 export const router = createBrowserRouter([
     {
-        path: "/",
+        path: basename + "/",
         element: (
             <Main>
                 <Home />
@@ -14,7 +17,7 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/search",
+        path: basename + "/search",
         element: (
             <Main>
                 <Search />
@@ -22,7 +25,7 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/search/:searchRequest",
+        path: basename + "/search/:searchRequest",
         element: (
             <Main>
                 <Search />
@@ -30,7 +33,7 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/search/:searchRequest/:filter",
+        path: basename + "/search/:searchRequest/:filter",
         element: (
             <Main>
                 <Search />
@@ -38,7 +41,7 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/playlist/:playlistId",
+        path: basename + "/playlist/:playlistId",
         element: (
             <Main>
                 <MainPanel />
@@ -46,7 +49,7 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/artist/:artistId",
+        path: basename + "/artist/:artistId",
         element: (
             <Main>
                 <MainPanel />
@@ -54,7 +57,7 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "/album/:albumId",
+        path: basename + "/album/:albumId",
         element: (
             <Main>
                 <MainPanel />
@@ -62,7 +65,7 @@ export const router = createBrowserRouter([
         ),
     },
     {
-        path: "*",
+        path: basename + "*",
         element: (
             <Main>
                 <p className="text-red-900 text-center text-2xl font-bold">
